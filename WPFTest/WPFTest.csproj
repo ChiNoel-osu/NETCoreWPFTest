@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="ADQB4016.PNG" />
+    <None Remove="EMRZ3567.JPG" />
+    <None Remove="VBNM6480.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="ADQB4016.PNG" />
+    <Resource Include="EMRZ3567.JPG" />
+    <Resource Include="VBNM6480.PNG" />
+  </ItemGroup>
+
+</Project>

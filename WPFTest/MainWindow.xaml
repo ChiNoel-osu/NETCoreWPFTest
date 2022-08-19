@@ -6,6 +6,288 @@
 		xmlns:local="clr-namespace:WPFTest"
 		mc:Ignorable="d"
 		Title="WPF GUI" Height="450" Width="600" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip">
+
+	<!--All the generated templates-->
+	<Window.Resources>
+		<!--Generated template "TabItemTemplate1" cuz i suck-->
+		<SolidColorBrush x:Key="TabItem.MouseOver.Background" Color="Black" Opacity="0"/>
+		<SolidColorBrush x:Key="TabItem.MouseOver.Border" Color="Pink"/>
+		<SolidColorBrush x:Key="TabItem.Selected.Background" Color="Black" Opacity="0"/>
+		<SolidColorBrush x:Key="TabItem.Selected.Border" Color="HotPink"/>
+		<SolidColorBrush x:Key="TabItem.Disabled.Background" Color="#F0F0F0"/>
+		<SolidColorBrush x:Key="TabItem.Disabled.Border" Color="#D9D9D9"/>
+		<ControlTemplate x:Key="TabItemTemplate1" TargetType="{x:Type TabItem}">
+			<Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+				<Border x:Name="mainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="1,1,1,0" Margin="0">
+					<Border x:Name="innerBorder" Background="{StaticResource TabItem.Selected.Background}" BorderBrush="{StaticResource TabItem.Selected.Border}" BorderThickness="1,1,1,0" Margin="-1" Opacity="0"/>
+				</Border>
+				<ContentPresenter x:Name="contentPresenter" ContentSource="Header" Focusable="False" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+			</Grid>
+			<ControlTemplate.Triggers>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+					<Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+					<Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+					<Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Background}"/>
+					<Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.MouseOver.Border}"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+					<Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+					<Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+					<Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+					<Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+					<Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+					<Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Opacity" TargetName="contentPresenter" Value="0.56"/>
+					<Setter Property="Background" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Background}"/>
+					<Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource TabItem.Disabled.Border}"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Panel.ZIndex" Value="1"/>
+					<Setter Property="Margin" Value="-2,-2,0,-2"/>
+					<Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Panel.ZIndex" Value="1"/>
+					<Setter Property="Margin" Value="-2,0,-2,-2"/>
+					<Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Panel.ZIndex" Value="1"/>
+					<Setter Property="Margin" Value="0,-2,-2,-2"/>
+					<Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+				</MultiDataTrigger>
+				<MultiDataTrigger>
+					<MultiDataTrigger.Conditions>
+						<Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true"/>
+						<Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top"/>
+					</MultiDataTrigger.Conditions>
+					<Setter Property="Panel.ZIndex" Value="1"/>
+					<Setter Property="Margin" Value="0,-2,0,1"/>
+					<Setter Property="Opacity" TargetName="innerBorder" Value="1"/>
+					<Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
+					<Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+				</MultiDataTrigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+
+		<!--Generated template "ButtonTemplate1" cuz i suck-->
+		<SolidColorBrush x:Key="Button.MouseOver.Background" Color="Black" Opacity="0.2"/>
+		<SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+		<SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+		<SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+		<SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+		<SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+		<SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+		<ControlTemplate x:Key="ButtonTemplate1" TargetType="{x:Type ButtonBase}">
+			<Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+				<ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+			</Border>
+			<ControlTemplate.Triggers>
+				<Trigger Property="Button.IsDefaulted" Value="true">
+					<Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+				</Trigger>
+				<Trigger Property="IsMouseOver" Value="true">
+					<Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+					<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+				</Trigger>
+				<Trigger Property="IsPressed" Value="true">
+					<Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+					<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+				</Trigger>
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+					<Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+					<Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+
+		<!--Generated template "CheckBoxTemplate1" cuz i suck-->
+		<Style x:Key="OptionMarkFocusVisual">
+			<Setter Property="Control.Template">
+				<Setter.Value>
+					<ControlTemplate>
+						<Rectangle Margin="14,0,0,0" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<SolidColorBrush x:Key="OptionMark.Static.Glyph" Color="White"/>
+		<SolidColorBrush x:Key="OptionMark.MouseOver.Background" Opacity="0"/>
+		<SolidColorBrush x:Key="OptionMark.MouseOver.Border" Color="#FF5593FF"/>
+		<SolidColorBrush x:Key="OptionMark.MouseOver.Glyph" Color="White"/>
+		<SolidColorBrush x:Key="OptionMark.Pressed.Background" Color="#FFD9ECFF"/>
+		<SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD"/>
+		<SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="White"/>
+		<SolidColorBrush x:Key="OptionMark.Disabled.Background" Opacity="0" />
+		<SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="Black"/>
+		<SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
+		<ControlTemplate x:Key="CheckBoxTemplate1" TargetType="{x:Type CheckBox}">
+			<Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="Auto"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				<Border x:Name="checkBoxBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="1" VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+					<Grid x:Name="markGrid">
+						<Path x:Name="optionMark" Data="F1 M 9.97498,1.22334L 4.6983,9.09834L 4.52164,9.09834L 0,5.19331L 1.27664,3.52165L 4.255,6.08833L 8.33331,1.52588e-005L 9.97498,1.22334 Z " Fill="{StaticResource OptionMark.Static.Glyph}" Margin="1" Opacity="0" Stretch="None"/>
+						<Rectangle x:Name="indeterminateMark" Fill="{StaticResource OptionMark.Static.Glyph}" Margin="2" Opacity="0"/>
+					</Grid>
+				</Border>
+				<ContentPresenter x:Name="contentPresenter" Grid.Column="1" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+			</Grid>
+			<ControlTemplate.Triggers>
+				<Trigger Property="HasContent" Value="true">
+					<Setter Property="FocusVisualStyle" Value="{StaticResource OptionMarkFocusVisual}"/>
+					<Setter Property="Padding" Value="4,-1,0,0"/>
+				</Trigger>
+				<Trigger Property="IsMouseOver" Value="true">
+					<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Background}"/>
+					<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.MouseOver.Border}"/>
+					<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+					<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.MouseOver.Glyph}"/>
+				</Trigger>
+				<Trigger Property="IsEnabled" Value="false">
+					<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Background}"/>
+					<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Disabled.Border}"/>
+					<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+					<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Disabled.Glyph}"/>
+				</Trigger>
+				<Trigger Property="IsPressed" Value="true">
+					<Setter Property="Background" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Background}"/>
+					<Setter Property="BorderBrush" TargetName="checkBoxBorder" Value="{StaticResource OptionMark.Pressed.Border}"/>
+					<Setter Property="Fill" TargetName="optionMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+					<Setter Property="Fill" TargetName="indeterminateMark" Value="{StaticResource OptionMark.Pressed.Glyph}"/>
+				</Trigger>
+				<Trigger Property="IsChecked" Value="true">
+					<Setter Property="Opacity" TargetName="optionMark" Value="1"/>
+					<Setter Property="Opacity" TargetName="indeterminateMark" Value="0"/>
+				</Trigger>
+				<Trigger Property="IsChecked" Value="{x:Null}">
+					<Setter Property="Opacity" TargetName="optionMark" Value="0"/>
+					<Setter Property="Opacity" TargetName="indeterminateMark" Value="1"/>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+	</Window.Resources>
+
 	<Window.Background>
 		<ImageBrush Opacity="0.88" Stretch="UniformToFill" ImageSource="/VBNM6480.PNG" TileMode="None"/>
 	</Window.Background>
@@ -16,6 +298,7 @@
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
 
+			<!--Left Grid-->
 			<Grid Grid.Column="0">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*"/>
@@ -23,30 +306,56 @@
 				</Grid.RowDefinitions>
 
 				<!--Dir Select-->
-				<StackPanel Grid.Row="0" Grid.Column="0">
-					<Label Content="Select File:" Foreground="White" Background="{x:Null}" FontFamily="GENISO" FontSize="20" Margin="8,-2,0,0"/>
+				<StackPanel>
+					<Label Content="Select executable or type in directory:" Foreground="White" Background="{x:Null}" FontFamily="GENISO" FontSize="20" Padding="0,0,0,0" Margin="12,4,0,5"/>
 					<Grid>
 						<Grid.ColumnDefinitions>
 							<ColumnDefinition Width="10*"/>
 							<ColumnDefinition Width="*"/>
 						</Grid.ColumnDefinitions>
-						<TextBox x:Name="dirBox" Grid.Column="0" TextWrapping="Wrap" Width="Auto" Margin="10,0,0,2" Padding="2,2,2,2" FontSize="14" TextChanged="dirBox_TextChanged" Background="{x:Null}" SelectionBrush="DarkGray" BorderBrush="Gray" Foreground="White" SelectionTextBrush="LightBlue" CaretBrush="FloralWhite" BorderThickness="2"/>
-						<Button x:Name="openFileBtn" Grid.Column="1" Content="..." Margin="8,2,10,3" Click="openFileBtn_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" FontFamily="French Script MT"/>
+						<TextBox x:Name="dirBox" Grid.Column="0" Width="Auto" Padding="2,2,2,2" FontSize="14" TextChanged="dirBox_TextChanged" Background="{x:Null}" SelectionBrush="DarkGray" BorderBrush="Gray" Foreground="White" SelectionTextBrush="LightBlue" CaretBrush="FloralWhite" BorderThickness="2" ToolTip="You can manually input a directory here." Margin="10,0,2,0"/>
+						<Button x:Name="openFileBtn" Template="{DynamicResource ButtonTemplate1}" Grid.Column="1" Content="...." Margin="8,2,10,3" Click="openFileBtn_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" FontFamily="French Script MT" ToolTip="Select a file."/>
 					</Grid>
 				</StackPanel>
-				
+
 				<!--CONTENT-->
-				<TabControl x:Name="tabControl" Grid.Row="1" Background="{x:Null}" Margin="10,-10,10,10" BorderBrush="LightGreen">
-					<TabItem Header="TabItem" Background="{x:Null}" BorderBrush="LightGreen" Foreground="White">
-					</TabItem>
-					<TabItem Header="TabItem" Background="{x:Null}" BorderBrush="LightGreen" Foreground="White">
+				<TabControl x:Name="tabControl" TabStripPlacement="Top" Grid.Row="1" Background="{x:Null}" Margin="10,-10,10,10" BorderBrush="HotPink">
+					<TabItem x:Name="tabOne" Header="EZ Mode" Background="{x:Null}" BorderBrush="LightGreen" Foreground="White" Template="{DynamicResource TabItemTemplate1}">
 						<TabItem.Content>
-							<TextBox x:Name="fileBox" Grid.Row="1" TextWrapping="Wrap" Width="Auto" Margin="2,2,2,2" Padding="2,2,2,2" FontSize="14" Background="{x:Null}" SelectionBrush="DarkGray" BorderBrush="Gray" Foreground="White" SelectionTextBrush="LightBlue" CaretBrush="FloralWhite" AcceptsReturn="True"/>
+							<StackPanel>
+								<Label x:Name="notAIC" Content="Please select game executable above." Foreground="White" FontFamily="SWIsop3" FontSize="16"/>
+								<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="UseDebug" Content="Debug?" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,8,0,20" FontFamily="Yu Gothic UI Semibold" Padding="6,-5,0,0" FontSize="16" IsChecked="False" ToolTip="Original option: &lt;DEBUG&gt;&#xA;Allows debugging and enables the checkboxes below." Checked="UseDebug_Change" Unchecked="UseDebug_Change" IsEnabled="False"/>
+								<Grid>
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="*"/>
+										<ColumnDefinition Width="*"/>
+									</Grid.ColumnDefinitions>
+									<StackPanel Grid.Column="0">
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nosnd" Content="No Sound" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: nosnd&#xA;Denies loading sound resources. Can reduce loading time." IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="reloadmtr" Content="Reload Scripts" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: reloadmtr&#xA;Enables reloading which allows you to use F9 in game to reload all StreamingAssets/localization/**.txt scripts." IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nocfg" Content="Default Settings" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: nocfg&#xA;idk, default setting?" IsEnabled="False"/>
+									</StackPanel>
+									<StackPanel Grid.Column="1">
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="mighty" Content="Mighty Attack" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: mighty&#xA;One Punch Alchemist." IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nodamage" Content="No Damage" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: nodamage&#xA;Always receive 0 dmg. Will go crazy with vines." IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="weak" Content="Weak Noel" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: weak&#xA;厨圣啊." IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="allskill" Content="Hidden Skills" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: allskill&#xA;Enables all hidden skills." IsEnabled="False"/>
+									</StackPanel>
+									<StackPanel Grid.Column="2">
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="supercyclone" Content="Super Cyclone Glitch" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: supercyclone&#xA;Anti-Gravity." IsEnabled="False"/>
+									</StackPanel>
+								</Grid>
+							</StackPanel>
+						</TabItem.Content>
+					</TabItem>
+					<TabItem x:Name="tabTwo" Header="Text Reader" Background="{x:Null}" BorderBrush="LightGreen" Foreground="White" Template="{DynamicResource TabItemTemplate1}">
+						<TabItem.Content>
+							<TextBox x:Name="fileBox" Grid.Row="1" TextWrapping="Wrap" Width="Auto" Margin="2,2,2,2" Padding="2,2,2,2" FontSize="14" Background="{x:Null}" SelectionBrush="DarkGray" Foreground="White" SelectionTextBrush="LightBlue" CaretBrush="FloralWhite" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True"/>
 						</TabItem.Content>
 					</TabItem>
 				</TabControl>
 			</Grid>
-
 
 			<!--Vertical Separator-->
 			<!--https://stackoverflow.com/questions/13584998/how-to-add-a-vertical-separator-->
@@ -56,16 +365,28 @@
 			<StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
 				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,0,0,0" Background="Gray"/>
 			</StackPanel>
-			
-			<!--Window Control-->
-			<Rectangle x:Name="toprightDragToMove" Grid.Column="4" MouseLeftButtonDown="DragToMove_LMouseDown" Fill="#00000000"/>
-			<StackPanel Grid.Column="1">
-				<Button x:Name="buttonMaxorRestore" Content="Maximize&#xA;Restore" Margin="20,10,10,2" Click="buttonMaxorRestore_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White"/>
-				<Button x:Name="buttonMini" Content="Minimize" Margin="40,0,10,2" Click="buttonMini_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White"/>
-				<Button x:Name="buttonExit" Content="Close" Margin="60,0,10,2" Click="buttonExit_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White"/>
-				<Separator Margin="0,10,0,0"/>
 
-			</StackPanel>
+			<!--Right Grid-->
+			<Grid Grid.Column="1">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="4*"/>
+					<RowDefinition Height="2*"/>
+					<RowDefinition Height="*"/>
+				</Grid.RowDefinitions>
+
+				<!--Window Control-->
+				<Rectangle x:Name="toprightDragToMove" MouseLeftButtonDown="DragToMove_LMouseDown" Fill="#00000000"/>
+				<StackPanel Grid.Column="1">
+					<Button x:Name="buttonMaxorRestore" Template="{DynamicResource ButtonTemplate1}" Content="Maximize&#xA;Restore" Margin="20,10,10,2" Click="buttonMaxorRestore_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="33" MinWidth="66" ToolTip="Maximize or Restore the window."/>
+					<Button x:Name="buttonMini" Template="{DynamicResource ButtonTemplate1}" Content="Minimize" Margin="40,0,10,2" Click="buttonMini_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="18" MinWidth="60" ToolTip="Minimize the window."/>
+					<Button x:Name="buttonExit" Template="{DynamicResource ButtonTemplate1}" Content="Close" Margin="60,0,10,2" Click="buttonExit_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="18" MinWidth="40" ToolTip="Close the window."/>
+					<Separator Margin="0,10,0,0"/>
+				</StackPanel>
+
+				<Button Template="{DynamicResource ButtonTemplate1}" x:Name="saveButton" Content="Save" Grid.Row="2" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" Margin="12,12,12,12" MinHeight="30" MinWidth="40" ToolTip="Save the file in specified path (Overwrite)." Click="saveButton_Click"/>
+				<Label Grid.Row="1" x:Name="savedLabel" Content="File Saved!" Foreground="Lime" HorizontalAlignment="Center" VerticalAlignment="Bottom" Padding="0,0,0,0" Visibility="Hidden"/>
+			</Grid>
+
 
 		</Grid>
 

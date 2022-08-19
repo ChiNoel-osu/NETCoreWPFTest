@@ -303,7 +303,7 @@ namespace WPFTest
 				timer.Tick += new EventHandler(timer_Tick);
 			}
 			else
-				Opacity += 0.5;
+				Opacity += 0.1;
 		}
 		private void UseDebug_Change(object sender, RoutedEventArgs e)
 		{

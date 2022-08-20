@@ -4,16 +4,66 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
+    <StartupObject>AICDebugHelper.App</StartupObject>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+    <Description>Reads _debug.txt of game Alice in Cradle.</Description>
+    <Company>me</Company>
+    <Authors>Victor</Authors>
+    <Version>0.2.0</Version>
+    <Copyright>NO COMMERCIAL USE. Background picture and icon and most assets belongs to NanameHacha.</Copyright>
+    <PackageIcon>Icon.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <None Remove="ADQB4016.PNG" />
     <None Remove="EMRZ3567.JPG" />
-    <None Remove="VBNM6480.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="VBNM6480.PNG" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Localization\loc.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>loc.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Localization\loc.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>loc.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Update="VBNM6480.PNG">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="WeebIcon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

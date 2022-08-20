@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
+using System.Diagnostics;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.IO;
 using System.Windows.Threading;
+using System.Globalization;
+
 //DebugFileEZMode targetting AliceInCradle_v020s
-namespace WPFTest
+namespace AICDebugHelper
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private bool windowReady = false;
 		private string aicDEBUGPATH = null; //This is where the actual txt debug file is
 		DispatcherTimer timer = new DispatcherTimer();
 		public MainWindow()
@@ -23,6 +27,22 @@ namespace WPFTest
 			timer.Tick += new EventHandler(FadeInForm);
 			timer.Interval = new TimeSpan(0, 0, 0, 0, 20);
 			timer.Start();
+		}
+		private void Window_Loaded(object sender, RoutedEventArgs e)
+		{
+			//Set language of LanguageBox
+			switch (Functions.ReadCfgLang())
+			{
+				case "zh":
+					LanguageBox.SelectedIndex = 1;
+					break;
+				case "en":
+					LanguageBox.SelectedIndex = 0;
+					break;
+				default:
+					break;
+			}
+			windowReady = true;
 		}
 		private void buttonExit_Click(object sender, RoutedEventArgs e)
 		{
@@ -55,7 +75,7 @@ namespace WPFTest
 			}
 			else
 			{
-				dirBox.Text = "<User canceled or an error occured.>";
+				dirBox.Text = Localization.loc.DirBoxError;
 				dirBox.BorderBrush = Brushes.Red;
 			}
 		}
@@ -89,7 +109,7 @@ namespace WPFTest
 			}
 			if (dirBox.Text.EndsWith("\\\\")) //User error
 			{
-				notAIC.Content = "Are u trying to kill me?";
+				notAIC.Content = Localization.loc.UserInputError;
 				notAIC.Foreground = Brushes.Red;
 				saveButton.IsEnabled = false;
 			}
@@ -100,12 +120,12 @@ namespace WPFTest
 				string aicDebugFileLocaton = aicDir + "AliceInCradle_Data\\StreamingAssets";
 				if (isAICDir(aicDebugFileLocaton))
 				{
-					notAIC.Content = "AIC Directory Found.";
+					notAIC.Content = Localization.loc.DirFound;
 					notAIC.Foreground = Brushes.FloralWhite;
 				}
 				else
 				{
-					notAIC.Content = "The target directory doesn't seem to be a valid AIC directory....";
+					notAIC.Content = Localization.loc.NotAICDir;
 					notAIC.Foreground = Brushes.Red;
 					saveButton.IsEnabled = false;
 				}
@@ -116,12 +136,12 @@ namespace WPFTest
 				string aicDebugFileLocaton = dirBox.Text + "AliceInCradle_Data\\StreamingAssets";
 				if (isAICDir(aicDebugFileLocaton))
 				{
-					notAIC.Content = "AIC Directory Found.";
+					notAIC.Content = Localization.loc.DirFound;
 					notAIC.Foreground = Brushes.FloralWhite;
 				}
 				else
 				{
-					notAIC.Content = "The target directory doesn't seem to be a valid AIC directory....";
+					notAIC.Content = Localization.loc.NotAICDir;
 					notAIC.Foreground = Brushes.Red;
 					saveButton.IsEnabled = false;
 				}
@@ -135,14 +155,14 @@ namespace WPFTest
 					dirBox.BorderBrush = Brushes.Gray;  //Reset status
 					if (!saveButton.IsEnabled)
 					{
-						notAIC.Content = "You're opening a random text file, stuff's not going to work.";
+						notAIC.Content = Localization.loc.ReadingRandom;
 						notAIC.Foreground = Brushes.Yellow;
 					}
 				}
 				catch (Exception)   //System.IO.FileNotFoundException is the main cause
 				{
 					dirBox.BorderBrush = Brushes.Red;
-					notAIC.Content = "The target directory doesn't seem to be a valid AIC directory....";
+					notAIC.Content = Localization.loc.NotAICDir;
 					notAIC.Foreground = Brushes.Red;
 					saveButton.IsEnabled = false;
 				}
@@ -155,7 +175,7 @@ namespace WPFTest
 				foreach (string dbgOption in dbgContent)
 				{
 					if (dbgOption == "") continue;  //Empty line
-					//Seperating Option and its state, if current line is comment, option will be "//" and state False
+													//Seperating Option and its state, if current line is comment, option will be "//" and state False
 					string option = dbgOption.Remove(dbgOption.IndexOf(' ') + 1).Split(' ')[0];
 					bool state = dbgOption.Substring(dbgOption.IndexOf(' ')).Split(' ')[1] == "1" ? true : false;
 					switch (option)
@@ -210,7 +230,7 @@ namespace WPFTest
 				{
 					savingContent = File.ReadAllLines(aicDEBUGPATH);
 				}
-				catch(Exception ex)
+				catch (Exception ex)
 				{
 					MessageBox.Show(ex.ToString());
 					return;
@@ -262,18 +282,19 @@ namespace WPFTest
 					savingContent[index] = savingContent[index].Replace(savingContent[index].Remove(savingContent[index].IndexOf(' ') + 1) + savingContent[index][savingContent[index].IndexOf(' ') + 1], savingContent[index].Remove(savingContent[index].IndexOf(' ') + 1) + Convert.ToByte(checkBoxes[lineIndex++].IsChecked));
 				if (notAIC.Foreground == Brushes.Red)   //Will not trigger now....it's fixed.
 					MessageBox.Show("Invalid directory or file, saved to fallback path: " + aicDEBUGPATH, "Hold on.", MessageBoxButton.OK, MessageBoxImage.Information);
-				try		//Now gonna save the file
+				try     //Now gonna save the file
 				{
 					//WriteAllLines will make the debug file CRLF instead of LF only.
 					//Thus a new line will be at the end of the file.
 					File.WriteAllLines(aicDEBUGPATH, savingContent);
+					savedLabel.Content = Localization.loc.SavedLabel;
 					savedLabel.Foreground = Brushes.Lime;
 					savedLabel.Visibility = Visibility.Visible;
 					timer.Start();  //Saved text delay timer
 				}
 				catch (Exception)
 				{
-					savedLabel.Content = "Save Failed.";
+					savedLabel.Content = Localization.loc.SaveFail;
 					savedLabel.Foreground = Brushes.Red;
 					savedLabel.Visibility = Visibility.Visible;
 					timer.Start();
@@ -281,7 +302,7 @@ namespace WPFTest
 			}
 			else
 			{
-				savedLabel.Content = "ERROR";
+				savedLabel.Content = Localization.loc.SaveError;
 				savedLabel.Foreground = Brushes.Red;
 				savedLabel.Visibility = Visibility.Visible;
 				timer.Start();
@@ -308,6 +329,51 @@ namespace WPFTest
 		private void UseDebug_Change(object sender, RoutedEventArgs e)
 		{
 			nosnd.IsEnabled = reloadmtr.IsEnabled = nocfg.IsEnabled = mighty.IsEnabled = nodamage.IsEnabled = weak.IsEnabled = allskill.IsEnabled = supercyclone.IsEnabled = (bool)((CheckBox)sender).IsChecked;
+		}
+		private void LanguageBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+		{
+			switch (((ComboBox)sender).SelectedIndex)
+			{
+				case 0: //English
+					Functions.ChangeCfgLang("en");
+					if (windowReady)    //Only shows after the window is fully loaded.
+					{
+						switch (MessageBox.Show("Language setting will take effect after restarting the application.\nWould you like to restart now?", "Language Changed!", MessageBoxButton.YesNo))
+						{
+							case MessageBoxResult.Yes:
+								Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+								Application.Current.Shutdown();
+								break;
+							case MessageBoxResult.No:
+								break;
+							default:
+								MessageBox.Show("Something's wrong.");
+								break;
+						}
+					}
+
+					break;
+				case 1: //Chinese
+					Functions.ChangeCfgLang("zh");
+					if (windowReady)
+					{
+						switch (MessageBox.Show("语言设置将会在下次启动程序时生效。\n要立即重启吗？", "语言已更改！", MessageBoxButton.YesNo))
+						{
+							case MessageBoxResult.Yes:
+								Process.Start(Process.GetCurrentProcess().MainModule.FileName);
+								Application.Current.Shutdown();
+								break;
+							case MessageBoxResult.No:
+								break;
+							default:
+								MessageBox.Show("出错了.");
+								break;
+						}
+					}
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }

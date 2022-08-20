@@ -1,7 +1,7 @@
-﻿<Application x:Class="WPFTest.App"
+﻿<Application x:Class="AICDebugHelper.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:WPFTest"
+             xmlns:local="clr-namespace:AICDebugHelper"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
          

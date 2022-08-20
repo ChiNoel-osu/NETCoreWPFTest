@@ -1,12 +1,13 @@
-﻿<Window x:Class="WPFTest.MainWindow"
+﻿<Window x:Class="AICDebugHelper.MainWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-		xmlns:local="clr-namespace:WPFTest"
-		mc:Ignorable="d"
-		Title="WPF GUI" Height="450" Width="600" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip">
-
+		xmlns:local = "clr-namespace:AICDebugHelper.Localization"
+		xmlns:p = "clr-namespace:AICDebugHelper"
+		Loaded="Window_Loaded"
+		Title="Alice in Cradle Debug File Helper" Height="450" Width="600" WindowStyle="None" AllowsTransparency="True" ResizeMode="CanResizeWithGrip"
+		xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
 	<!--All the generated templates-->
 	<Window.Resources>
 		<!--Generated template "TabItemTemplate1" cuz i suck-->
@@ -237,8 +238,8 @@
 		<SolidColorBrush x:Key="OptionMark.Pressed.Border" Color="#FF3C77DD"/>
 		<SolidColorBrush x:Key="OptionMark.Pressed.Glyph" Color="White"/>
 		<SolidColorBrush x:Key="OptionMark.Disabled.Background" Opacity="0" />
-		<SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="Black"/>
-		<SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="#FF707070"/>
+		<SolidColorBrush x:Key="OptionMark.Disabled.Border" Color="DimGray"/>
+		<SolidColorBrush x:Key="OptionMark.Disabled.Glyph" Color="DarkGray"/>
 		<ControlTemplate x:Key="CheckBoxTemplate1" TargetType="{x:Type CheckBox}">
 			<Grid x:Name="templateRoot" Background="Transparent" SnapsToDevicePixels="True">
 				<Grid.ColumnDefinitions>
@@ -286,45 +287,210 @@
 				</Trigger>
 			</ControlTemplate.Triggers>
 		</ControlTemplate>
-	</Window.Resources>
 
+		<!--Stupid combo box won't let me change it individually so i have to use template-->
+		<SolidColorBrush x:Key="ComboBox.Static.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.Static.Border" Color="HotPink"/>
+		<SolidColorBrush x:Key="ComboBox.Static.Glyph" Color="LightSeaGreen"/>
+		<SolidColorBrush x:Key="ComboBox.Static.Editable.Background"/>
+		<SolidColorBrush x:Key="ComboBox.Static.Editable.Border"/>
+		<SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.Static.Editable.Button.Border" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.MouseOver.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.MouseOver.Border" Color="#FF7EB4EA"/>
+		<SolidColorBrush x:Key="ComboBox.MouseOver.Glyph" Color="DarkGreen"/>
+		<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Border" Color="HotPink"/>
+		<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.MouseOver.Editable.Button.Border" Color="#FF7EB4EA"/>
+		<SolidColorBrush x:Key="ComboBox.Pressed.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.Pressed.Border" Color="#FF569DE5"/>
+		<SolidColorBrush x:Key="ComboBox.Pressed.Glyph" Color="#FF000000"/>
+		<SolidColorBrush x:Key="ComboBox.Pressed.Editable.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.Pressed.Editable.Border" Color="#FF569DE5"/>
+		<SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.Pressed.Editable.Button.Border" Color="#FF569DE5"/>
+		<SolidColorBrush x:Key="ComboBox.Disabled.Background" Color="#FFF0F0F0"/>
+		<SolidColorBrush x:Key="ComboBox.Disabled.Border" Color="#FFD9D9D9"/>
+		<SolidColorBrush x:Key="ComboBox.Disabled.Glyph" Color="#FFBFBFBF"/>
+		<SolidColorBrush x:Key="ComboBox.Disabled.Editable.Background" Color="#FFFFFFFF"/>
+		<SolidColorBrush x:Key="ComboBox.Disabled.Editable.Border" Color="#FFBFBFBF"/>
+		<SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Background" Color="Transparent"/>
+		<SolidColorBrush x:Key="ComboBox.Disabled.Editable.Button.Border" Color="Transparent"/>
+		<Style x:Key="ComboBoxToggleButton" TargetType="{x:Type ToggleButton}">
+			<Setter Property="OverridesDefaultStyle" Value="true"/>
+			<Setter Property="IsTabStop" Value="false"/>
+			<Setter Property="Focusable" Value="false"/>
+			<Setter Property="ClickMode" Value="Press"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="{x:Type ToggleButton}">
+						<Border x:Name="templateRoot" Background="{StaticResource ComboBox.Static.Background}" BorderBrush="{StaticResource ComboBox.Static.Border}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+							<Border x:Name="splitBorder" BorderBrush="Transparent" BorderThickness="1" HorizontalAlignment="Right" Margin="0" SnapsToDevicePixels="true" Width="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}">
+								<Path x:Name="arrow" Data="F1 M 0,0 L 2.667,2.66665 L 5.3334,0 L 5.3334,-1.78168 L 2.6667,0.88501 L0,-1.78168 L0,0 Z" Fill="{StaticResource ComboBox.Static.Glyph}" HorizontalAlignment="Center" Margin="0" VerticalAlignment="Center"/>
+							</Border>
+						</Border>
+						<ControlTemplate.Triggers>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+									<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false"/>
+									<Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false"/>
+									<Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Background}"/>
+								<Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Static.Editable.Border}"/>
+								<Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Background}"/>
+								<Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Static.Editable.Button.Border}"/>
+							</MultiDataTrigger>
+							<Trigger Property="IsMouseOver" Value="true">
+								<Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.MouseOver.Glyph}"/>
+							</Trigger>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+									<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Background}"/>
+								<Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Border}"/>
+							</MultiDataTrigger>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true"/>
+									<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Background}"/>
+								<Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.MouseOver.Editable.Border}"/>
+								<Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Background}"/>
+								<Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.MouseOver.Editable.Button.Border}"/>
+							</MultiDataTrigger>
+							<Trigger Property="IsPressed" Value="true">
+								<Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Pressed.Glyph}"/>
+							</Trigger>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+									<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Background}"/>
+								<Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Border}"/>
+							</MultiDataTrigger>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true"/>
+									<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Background}"/>
+								<Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Pressed.Editable.Border}"/>
+								<Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Background}"/>
+								<Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Pressed.Editable.Button.Border}"/>
+							</MultiDataTrigger>
+							<Trigger Property="IsEnabled" Value="false">
+								<Setter Property="Fill" TargetName="arrow" Value="{StaticResource ComboBox.Disabled.Glyph}"/>
+							</Trigger>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+									<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="false"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Background}"/>
+								<Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Border}"/>
+							</MultiDataTrigger>
+							<MultiDataTrigger>
+								<MultiDataTrigger.Conditions>
+									<Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false"/>
+									<Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}" Value="true"/>
+								</MultiDataTrigger.Conditions>
+								<Setter Property="Background" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Background}"/>
+								<Setter Property="BorderBrush" TargetName="templateRoot" Value="{StaticResource ComboBox.Disabled.Editable.Border}"/>
+								<Setter Property="Background" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Background}"/>
+								<Setter Property="BorderBrush" TargetName="splitBorder" Value="{StaticResource ComboBox.Disabled.Editable.Button.Border}"/>
+							</MultiDataTrigger>
+						</ControlTemplate.Triggers>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+		</Style>
+		<ControlTemplate x:Key="ComboBoxTemplate1" TargetType="{x:Type ComboBox}">
+			<Grid x:Name="templateRoot" SnapsToDevicePixels="true">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" Width="0"/>
+				</Grid.ColumnDefinitions>
+				<Popup x:Name="PART_Popup" AllowsTransparency="true" Grid.ColumnSpan="2" IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Margin="1" Placement="Bottom" PopupAnimation="{DynamicResource {x:Static SystemParameters.ComboBoxPopupAnimationKey}}">
+					<theme:SystemDropShadowChrome x:Name="shadow" Color="Transparent" MinWidth="{Binding ActualWidth, ElementName=templateRoot}" MaxHeight="{TemplateBinding MaxDropDownHeight}">
+						<Border x:Name="dropDownBorder" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" BorderBrush="{DynamicResource {x:Static SystemColors.WindowFrameBrushKey}}" BorderThickness="1">
+							<ScrollViewer x:Name="DropDownScrollViewer">
+								<Grid x:Name="grid" RenderOptions.ClearTypeHint="Enabled">
+									<Canvas x:Name="canvas" HorizontalAlignment="Left" Height="0" VerticalAlignment="Top" Width="0">
+										<Rectangle x:Name="opaqueRect" Fill="{Binding Background, ElementName=dropDownBorder}" Height="{Binding ActualHeight, ElementName=dropDownBorder}" Width="{Binding ActualWidth, ElementName=dropDownBorder}"/>
+									</Canvas>
+									<ItemsPresenter x:Name="ItemsPresenter" KeyboardNavigation.DirectionalNavigation="Contained" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+								</Grid>
+							</ScrollViewer>
+						</Border>
+					</theme:SystemDropShadowChrome>
+				</Popup>
+				<ToggleButton x:Name="toggleButton" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Grid.ColumnSpan="2" IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{StaticResource ComboBoxToggleButton}"/>
+				<ContentPresenter x:Name="contentPresenter" ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}" ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}" Content="{TemplateBinding SelectionBoxItem}" ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" IsHitTestVisible="false" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+			</Grid>
+			<ControlTemplate.Triggers>
+				<Trigger Property="HasDropShadow" SourceName="PART_Popup" Value="true">
+					<Setter Property="Margin" TargetName="shadow" Value="0,0,5,5"/>
+					<Setter Property="Color" TargetName="shadow" Value="#71000000"/>
+				</Trigger>
+				<Trigger Property="HasItems" Value="false">
+					<Setter Property="Height" TargetName="dropDownBorder" Value="95"/>
+				</Trigger>
+				<MultiTrigger>
+					<MultiTrigger.Conditions>
+						<Condition Property="IsGrouping" Value="true"/>
+						<Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+					</MultiTrigger.Conditions>
+					<Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+				</MultiTrigger>
+				<Trigger Property="ScrollViewer.CanContentScroll" SourceName="DropDownScrollViewer" Value="false">
+					<Setter Property="Canvas.Top" TargetName="opaqueRect" Value="{Binding VerticalOffset, ElementName=DropDownScrollViewer}"/>
+					<Setter Property="Canvas.Left" TargetName="opaqueRect" Value="{Binding HorizontalOffset, ElementName=DropDownScrollViewer}"/>
+				</Trigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+	</Window.Resources>
 	<Window.Background>
-		<ImageBrush Opacity="0.88" Stretch="UniformToFill" ImageSource="/VBNM6480.PNG" TileMode="None"/>
+		<ImageBrush ImageSource="/VBNM6480.PNG" Opacity="0.9" Stretch="UniformToFill"/>
 	</Window.Background>
-	<Border BorderBrush="Gray" BorderThickness="1" Margin="8" CornerRadius="0,0,20,00" Background="#CC000000">
+	<Border BorderBrush="Gray" BorderThickness="1" Margin="8" CornerRadius="0,0,20,00" Background="#D8000000">
 		<Grid>
 			<Grid.ColumnDefinitions>
 				<ColumnDefinition Width="4*"/>
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
-
 			<!--Left Grid-->
 			<Grid Grid.Column="0">
 				<Grid.RowDefinitions>
 					<RowDefinition Height="*"/>
 					<RowDefinition Height="4*"/>
 				</Grid.RowDefinitions>
-
 				<!--Dir Select-->
 				<StackPanel>
-					<Label Content="Select executable or type in directory:" Foreground="White" Background="{x:Null}" FontFamily="GENISO" FontSize="20" Padding="0,0,0,0" Margin="12,4,0,5"/>
+					<Label Content="{x:Static local:loc.InputDirectory}" Foreground="White" Background="{x:Null}" FontFamily="GENISO" FontSize="20" Padding="0,0,0,0" Margin="12,4,0,5"/>
 					<Grid>
 						<Grid.ColumnDefinitions>
-							<ColumnDefinition Width="10*"/>
-							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="107*"/>
+							<ColumnDefinition Width="34*"/>
+							<ColumnDefinition Width="14*"/>
 						</Grid.ColumnDefinitions>
-						<TextBox x:Name="dirBox" Grid.Column="0" Width="Auto" Padding="2,2,2,2" FontSize="14" TextChanged="dirBox_TextChanged" Background="{x:Null}" SelectionBrush="DarkGray" BorderBrush="Gray" Foreground="White" SelectionTextBrush="LightBlue" CaretBrush="FloralWhite" BorderThickness="2" ToolTip="You can manually input a directory here." Margin="10,0,2,0"/>
-						<Button x:Name="openFileBtn" Template="{DynamicResource ButtonTemplate1}" Grid.Column="1" Content="...." Margin="8,2,10,3" Click="openFileBtn_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" FontFamily="French Script MT" ToolTip="Select a file."/>
+						<TextBox x:Name="dirBox" Grid.Column="0" Width="Auto" Padding="2,2,2,2" FontSize="14" TextChanged="dirBox_TextChanged" Background="{x:Null}" SelectionBrush="DarkGray" BorderBrush="Gray" Foreground="White" SelectionTextBrush="LightBlue" CaretBrush="FloralWhite" BorderThickness="2" ToolTip="{x:Static local:loc.dirBoxTT}" Margin="10,0,2,0" Grid.ColumnSpan="2"/>
+						<Button x:Name="openFileBtn" Template="{DynamicResource ButtonTemplate1}" Grid.Column="2" Content="...." Margin="8,2,10,3" Click="openFileBtn_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" FontFamily="French Script MT" ToolTip="Select a file."/>
 					</Grid>
 				</StackPanel>
-
 				<!--CONTENT-->
 				<TabControl x:Name="tabControl" TabStripPlacement="Top" Grid.Row="1" Background="{x:Null}" Margin="10,-10,10,10" BorderBrush="HotPink">
-					<TabItem x:Name="tabOne" Header="EZ Mode" Background="{x:Null}" BorderBrush="LightGreen" Foreground="White" Template="{DynamicResource TabItemTemplate1}">
+					<TabItem x:Name="tabOne" Header="{x:Static local:loc.tabOneHeader}" Background="{x:Null}" BorderBrush="LightGreen" Foreground="White" Template="{DynamicResource TabItemTemplate1}">
 						<TabItem.Content>
 							<StackPanel>
-								<Label x:Name="notAIC" Content="Please select game executable above." Foreground="White" FontFamily="SWIsop3" FontSize="16"/>
-								<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="UseDebug" Content="Debug?" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,8,0,20" FontFamily="Yu Gothic UI Semibold" Padding="6,-5,0,0" FontSize="16" IsChecked="False" ToolTip="Original option: &lt;DEBUG&gt;&#xA;Allows debugging and enables the checkboxes below." Checked="UseDebug_Change" Unchecked="UseDebug_Change" IsEnabled="False"/>
+								<Label x:Name="notAIC" Content="{x:Static local:loc.initStartupTest}" Foreground="White" FontFamily="SWIsop3" FontSize="16"/>
+								<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="UseDebug" Content="{x:Static local:loc.CheckBoxUseDebug}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,8,0,20" FontFamily="Yu Gothic UI Semibold" Padding="6,-5,0,0" FontSize="16" IsChecked="False" ToolTip="{x:Static local:loc.UseDebugTT}" Checked="UseDebug_Change" Unchecked="UseDebug_Change" IsEnabled="False"/>
 								<Grid>
 									<Grid.ColumnDefinitions>
 										<ColumnDefinition Width="*"/>
@@ -332,31 +498,30 @@
 										<ColumnDefinition Width="*"/>
 									</Grid.ColumnDefinitions>
 									<StackPanel Grid.Column="0">
-										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nosnd" Content="No Sound" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: nosnd&#xA;Denies loading sound resources. Can reduce loading time." IsEnabled="False"/>
-										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="reloadmtr" Content="Reload Scripts" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: reloadmtr&#xA;Enables reloading which allows you to use F9 in game to reload all StreamingAssets/localization/**.txt scripts." IsEnabled="False"/>
-										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nocfg" Content="Default Settings" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: nocfg&#xA;idk, default setting?" IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nosnd" Content="{x:Static local:loc.CBnosnd}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="{x:Static local:loc.CBnosndTT}" IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="reloadmtr" Content="{x:Static local:loc.CBreloadmtr}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="{x:Static local:loc.CBreloadmtrTT}" IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nocfg" Content="{x:Static local:loc.CBnocfg}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="{x:Static local:loc.CBnocfgTT}" IsEnabled="False"/>
 									</StackPanel>
 									<StackPanel Grid.Column="1">
-										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="mighty" Content="Mighty Attack" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: mighty&#xA;One Punch Alchemist." IsEnabled="False"/>
-										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nodamage" Content="No Damage" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: nodamage&#xA;Always receive 0 dmg. Will go crazy with vines." IsEnabled="False"/>
-										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="weak" Content="Weak Noel" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: weak&#xA;厨圣啊." IsEnabled="False"/>
-										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="allskill" Content="Hidden Skills" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: allskill&#xA;Enables all hidden skills." IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="mighty" Content="{x:Static local:loc.CBmighty}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="{x:Static local:loc.CBmightyTT}" IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="nodamage" Content="{x:Static local:loc.CBnodamage}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="{x:Static local:loc.CBnodamageTT}" IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="weak" Content="{x:Static local:loc.CBweak}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="{x:Static local:loc.CBweakTT}" IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="allskill" Content="{x:Static local:loc.CGallskill}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="{x:Static local:loc.CBallskillTT}" IsEnabled="False"/>
 									</StackPanel>
 									<StackPanel Grid.Column="2">
-										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="supercyclone" Content="Super Cyclone Glitch" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="Original option: supercyclone&#xA;Anti-Gravity." IsEnabled="False"/>
+										<CheckBox Template="{DynamicResource CheckBoxTemplate1}" x:Name="supercyclone" Content="{x:Static local:loc.CBsupercyclone}" Foreground="White" Background="{x:Null}" BorderBrush="LightGreen" Margin="10,0,0,8" FontFamily="Yu Gothic UI Light" ToolTip="{x:Static local:loc.CBsupercycloneTT}" IsEnabled="False"/>
 									</StackPanel>
 								</Grid>
 							</StackPanel>
 						</TabItem.Content>
 					</TabItem>
-					<TabItem x:Name="tabTwo" Header="Text Reader" Background="{x:Null}" BorderBrush="LightGreen" Foreground="White" Template="{DynamicResource TabItemTemplate1}">
+					<TabItem x:Name="tabTwo" Header="{x:Static local:loc.tabTwoHeader}" Background="{x:Null}" BorderBrush="LightGreen" Foreground="White" Template="{DynamicResource TabItemTemplate1}">
 						<TabItem.Content>
 							<TextBox x:Name="fileBox" Grid.Row="1" TextWrapping="Wrap" Width="Auto" Margin="2,2,2,2" Padding="2,2,2,2" FontSize="14" Background="{x:Null}" SelectionBrush="DarkGray" Foreground="White" SelectionTextBrush="LightBlue" CaretBrush="FloralWhite" AcceptsReturn="True" BorderBrush="{x:Null}" IsReadOnly="True"/>
 						</TabItem.Content>
 					</TabItem>
 				</TabControl>
 			</Grid>
-
 			<!--Vertical Separator-->
 			<!--https://stackoverflow.com/questions/13584998/how-to-add-a-vertical-separator-->
 			<StackPanel Grid.Column="1" Orientation="Horizontal">
@@ -365,7 +530,6 @@
 			<StackPanel Grid.Column="1" Grid.Row="1" Orientation="Horizontal">
 				<Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="0,0,0,0" Background="Gray"/>
 			</StackPanel>
-
 			<!--Right Grid-->
 			<Grid Grid.Column="1">
 				<Grid.RowDefinitions>
@@ -373,22 +537,21 @@
 					<RowDefinition Height="2*"/>
 					<RowDefinition Height="*"/>
 				</Grid.RowDefinitions>
-
 				<!--Window Control-->
-				<Rectangle x:Name="toprightDragToMove" MouseLeftButtonDown="DragToMove_LMouseDown" Fill="#00000000"/>
+				<Rectangle x:Name="toprightDragToMove" MouseLeftButtonDown="DragToMove_LMouseDown" Fill="Transparent" ToolTip="{x:Static local:loc.DragToMove}"/>
 				<StackPanel Grid.Column="1">
-					<Button x:Name="buttonMaxorRestore" Template="{DynamicResource ButtonTemplate1}" Content="Maximize&#xA;Restore" Margin="20,10,10,2" Click="buttonMaxorRestore_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="33" MinWidth="66" ToolTip="Maximize or Restore the window."/>
-					<Button x:Name="buttonMini" Template="{DynamicResource ButtonTemplate1}" Content="Minimize" Margin="40,0,10,2" Click="buttonMini_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="18" MinWidth="60" ToolTip="Minimize the window."/>
-					<Button x:Name="buttonExit" Template="{DynamicResource ButtonTemplate1}" Content="Close" Margin="60,0,10,2" Click="buttonExit_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="18" MinWidth="40" ToolTip="Close the window."/>
+					<Button x:Name="buttonMaxorRestore" Template="{DynamicResource ButtonTemplate1}" Content="{x:Static local:loc.WndCtrMaxRestore}" Margin="20,10,10,2" Click="buttonMaxorRestore_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="33" MinWidth="66" ToolTip="{x:Static local:loc.WndCtrMaxRestoreTT}"/>
+					<Button x:Name="buttonMini" Template="{DynamicResource ButtonTemplate1}" Content="{x:Static local:loc.WndCtrMinimize}" Margin="40,0,10,2" Click="buttonMini_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="18" MinWidth="60" ToolTip="{x:Static local:loc.WndCtrMinimizeTT}"/>
+					<Button x:Name="buttonExit" Template="{DynamicResource ButtonTemplate1}" Content="{x:Static local:loc.WndCtrClose}" Margin="60,0,10,2" Click="buttonExit_Click" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" MinHeight="18" MinWidth="40" ToolTip="{x:Static local:loc.WndCtrCloseTT}"/>
 					<Separator Margin="0,10,0,0"/>
+					<ComboBox Template="{DynamicResource ComboBoxTemplate1}" x:Name="LanguageBox" Margin="20,15,20,0" Foreground="White" SelectionChanged="LanguageBox_SelectionChanged" Background="{x:Null}" BorderBrush="{x:Null}" ToolTip="{x:Static local:loc.LanguageBoxTT}">
+						<ComboBoxItem x:Name="enButton" Content="English" Foreground="Black"/>
+						<ComboBoxItem x:Name="zhButton" Content="中文" Foreground="Black"/>
+					</ComboBox>
 				</StackPanel>
-
-				<Button Template="{DynamicResource ButtonTemplate1}" x:Name="saveButton" Content="Save" Grid.Row="2" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" Margin="12,12,12,12" MinHeight="30" MinWidth="40" ToolTip="Save the file in specified path (Overwrite)." Click="saveButton_Click"/>
-				<Label Grid.Row="1" x:Name="savedLabel" Content="File Saved!" Foreground="Lime" HorizontalAlignment="Center" VerticalAlignment="Bottom" Padding="0,0,0,0" Visibility="Hidden"/>
+				<Button Template="{DynamicResource ButtonTemplate1}" x:Name="saveButton" Content="{x:Static local:loc.SaveButton}" Grid.Row="2" Background="{x:Null}" BorderBrush="#FF83B3FF" Foreground="White" Margin="12,12,12,12" MinHeight="30" MinWidth="40" ToolTip="{x:Static local:loc.SaveButtonTT}" Click="saveButton_Click"/>
+				<Label Grid.Row="1" x:Name="savedLabel" Content="{x:Static local:loc.SavedLabel}" Foreground="Lime" HorizontalAlignment="Center" VerticalAlignment="Bottom" Padding="0,0,0,0" Visibility="Hidden"/>
 			</Grid>
-
-
 		</Grid>
-
 	</Border>
 </Window>

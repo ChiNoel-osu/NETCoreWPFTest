@@ -150,7 +150,7 @@ namespace AICDebugHelper
 			{
 				try     //Check if the file can be opened
 				{
-					saveButton.IsEnabled = Directory.GetParent(dirBox.Text).ToString().EndsWith("StreamingAssets") ? true : false;
+					saveButton.IsEnabled = Directory.GetParent(dirBox.Text).ToString().EndsWith("StreamingAssets") && dirBox.Text.EndsWith("_debug.txt") ? true : false;
 					fileBox.Text = File.ReadAllText(dirBox.Text);
 					dirBox.BorderBrush = Brushes.Gray;  //Reset status
 					if (!saveButton.IsEnabled)
@@ -158,6 +158,13 @@ namespace AICDebugHelper
 						notAIC.Content = Localization.loc.ReadingRandom;
 						notAIC.Foreground = Brushes.Yellow;
 					}
+					else    //Actual file
+					{
+						aicDEBUGPATH = dirBox.Text;
+						notAIC.Content = Localization.loc.DirFound;
+						notAIC.Foreground = Brushes.FloralWhite;
+					}
+
 				}
 				catch (Exception)   //System.IO.FileNotFoundException is the main cause
 				{
@@ -278,7 +285,7 @@ namespace AICDebugHelper
 					lineIndex++;
 				}
 				lineIndex = 0;  //Reuse, it's now checkbox index
-				foreach (byte index in changingLinesIndex)  //Replace option with checkbox status
+				foreach (byte index in changingLinesIndex)  //Replace option with checkbox status  also the longest shit i've ever written
 					savingContent[index] = savingContent[index].Replace(savingContent[index].Remove(savingContent[index].IndexOf(' ') + 1) + savingContent[index][savingContent[index].IndexOf(' ') + 1], savingContent[index].Remove(savingContent[index].IndexOf(' ') + 1) + Convert.ToByte(checkBoxes[lineIndex++].IsChecked));
 				if (notAIC.Foreground == Brushes.Red)   //Will not trigger now....it's fixed.
 					MessageBox.Show("Invalid directory or file, saved to fallback path: " + aicDEBUGPATH, "Hold on.", MessageBoxButton.OK, MessageBoxImage.Information);

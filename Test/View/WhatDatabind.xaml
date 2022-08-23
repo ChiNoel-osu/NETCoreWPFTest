@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="Test.View.WhatDatabind"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Test.View"
+			 xmlns:test="clr-namespace:Test"
+			 d:DataContext="{d:DesignInstance Type=test:WhatDatabindVM}"
+			 mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="250">
+	<StackPanel>
+		<TextBox x:Name="TextB" FontSize="20"
+				 BorderBrush="#FF0040FF"
+				 Background="{x:Null}"
+				 Foreground="White"
+				 TextChanged="TextBox_TextChanged"/>
+		<TextBlock Text="{Binding Path=LabelBind}"
+				   Foreground="White"
+				   FontSize="18" />
+	</StackPanel>
+</UserControl>

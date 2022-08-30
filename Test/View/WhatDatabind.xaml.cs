@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -10,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Test.Model;
 
 namespace Test.View
 {
@@ -18,14 +20,27 @@ namespace Test.View
 	/// </summary>
 	public partial class WhatDatabind : UserControl
 	{
+		TheViewModel _main =  new TheViewModel();
 		public WhatDatabind()
 		{
 			InitializeComponent();
-			DataContext = new WhatDatabindVM();
+			DataContext = _main;
 		}
-		private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+
+		private void MakeTextSmaller(object sender, RoutedEventArgs e)
 		{
-			
+			_main.ChangeTextSize((short)TextBlockOne.FontSize, -2);
+		}
+
+		private void MakeTextBigger(object sender, RoutedEventArgs e)
+		{
+			_main.ChangeTextSize((short)TextBlockOne.FontSize, 2);
+		}
+
+		private async void asyncButton_Click(object sender, RoutedEventArgs e)
+		{
+			asyncButton.Content = await new DoSth().superlong();
+			//_main.PathDelay.PathToDelay = (string)((Button)sender).Content;
 		}
 	}
 }

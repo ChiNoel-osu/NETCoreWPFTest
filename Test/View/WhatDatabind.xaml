@@ -1,21 +1,99 @@
 ﻿<UserControl x:Class="Test.View.WhatDatabind"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Test.View"
-			 xmlns:test="clr-namespace:Test"
-			 d:DataContext="{d:DesignInstance Type=test:WhatDatabindVM}"
-			 mc:Ignorable="d" 
-             d:DesignHeight="500" d:DesignWidth="250">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:local="clr-namespace:Test.View"
+			 xmlns:vm="clr-namespace:Test"
+			 d:DataContext="{d:DesignInstance Type=vm:TheViewModel}"
+			 mc:Ignorable="d"
+			 d:DesignHeight="500"
+			 d:DesignWidth="250">
+	<UserControl.Resources>
+		<Style TargetType="TextBox">
+			<Setter Property="Background"
+					Value="Transparent" />
+			<Setter Property="Foreground"
+					Value="White" />
+			<Setter Property="BorderBrush"
+					Value="Aqua" />
+		</Style>
+	</UserControl.Resources>
 	<StackPanel>
-		<TextBox x:Name="TextB" FontSize="20"
+		<TextBox Style="{DynamicResource TextBoxStyle1}"
+				 FontSize="20"
 				 BorderBrush="#FF0040FF"
 				 Background="{x:Null}"
 				 Foreground="White"
-				 TextChanged="TextBox_TextChanged"/>
-		<TextBlock Text="{Binding Path=LabelBind}"
+				 Text="{Binding BIND.StrBind, Mode=OneWayToSource, UpdateSourceTrigger=PropertyChanged}" />
+		<TextBlock x:Name="TextBlockOne"
+				   Text="{Binding BIND.StrBind}"
 				   Foreground="White"
-				   FontSize="18" />
+				   FontSize="{Binding TextSizeShit.Diff}" />
+		<Grid Height="40">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="*" />
+			</Grid.ColumnDefinitions>
+			<Button Grid.Column="0"
+					Click="MakeTextSmaller" />
+			<Button Grid.Column="1"
+					Click="MakeTextBigger" />
+		</Grid>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="3*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="*" />
+			</Grid.RowDefinitions>
+			<Label Grid.Row="0"
+				   Grid.Column="0"
+				   Content="Title"
+				   Foreground="White"
+				   FontSize="14" />
+			<Label Grid.Row="1"
+				   Grid.Column="0"
+				   Content="Stuff"
+				   Foreground="White"
+				   FontSize="14" />
+			<TextBox Grid.Row="0"
+					 Grid.Column="1"
+					 Margin="0,4,0,2"
+					 Text="{Binding BindThisToShow.MsgBoxTitle, Mode=OneWayToSource}" />
+			<TextBox Grid.Row="1"
+					 Grid.Column="1"
+					 Margin="0,2,0,4"
+					 Text="{Binding BindThisToShow.MsgBoxContent, Mode=OneWayToSource}" />
+		</Grid>
+		<Button Height="40"
+				Margin="10"
+				Content="Show some shit."
+				FontSize="16"
+				Command="{Binding BindThisToShow.ThisIsForMsgBox}" />
+		<TextBox x:Name="asyncDirInput"
+				 Text="{Binding PathDelay.PathToDelay, Mode=OneWayToSource}"
+				 FontSize="16" />
+		<ComboBox ItemsSource="{Binding PathDelay.DelayDirs}" />
+		<Button x:Name="asyncButton"
+				Height="107"
+				Width="150"
+				Content="{Binding ElementName=asyncDirInput, Path=Text}"
+				RenderTransformOrigin="-0.361,0.552"
+				Click="asyncButton_Click">
+			<Button.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform />
+					<SkewTransform AngleY="-30.964" />
+					<RotateTransform Angle="103.701" />
+					<TranslateTransform Y="-106.142"
+										X="9.081" />
+				</TransformGroup>
+			</Button.RenderTransform>
+		</Button>
+
+
 	</StackPanel>
 </UserControl>

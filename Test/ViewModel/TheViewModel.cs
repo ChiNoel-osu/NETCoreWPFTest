@@ -2,20 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 using Test.ViewModel;
-using Test.View;
-using Test.Model;
-
 namespace Test
 {
 	public class TheViewModel : ViewModelBase
 	{
-		string shit()
+		public WhatDatabindVM BIND { get; private set; }
+		public TextSizeVM TextSizeShit { get; private set; }
+		public MesasgeBoxVMC BindThisToShow { get; private set; }
+		public ComboBoxVM PathDelay { get; private set; }
+		public TheViewModel()
 		{
-			DoSth doSth = new DoSth();
-			doSth.Name = "BRUH";
-			return doSth.Name;
+			BIND = new WhatDatabindVM();
+			TextSizeShit = new TextSizeVM();
+			BindThisToShow = new MesasgeBoxVMC();
+			PathDelay = new ComboBoxVM();
 		}
-		public string BoundContent => shit();
-
+		public void ChangeTextSize(short current, short diff)
+		{
+			TextSizeShit.CurrentTextSize = current;
+			TextSizeShit.Diff = diff;
+		}
 	}
 }

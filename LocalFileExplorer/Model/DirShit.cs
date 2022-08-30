@@ -2,6 +2,8 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Text;
+using LocalFileExplorer.ViewModel;
+using System.Threading.Tasks;
 
 namespace LocalFileExplorer.Model
 {
@@ -14,7 +16,7 @@ namespace LocalFileExplorer.Model
 			{
 				return Directory.GetDirectories(path);
 			}
-			catch (UnauthorizedAccessException)
+			catch (Exception)
 			{
 				return null;
 			}
@@ -25,11 +27,33 @@ namespace LocalFileExplorer.Model
 			{
 				return Directory.GetFiles(path);
 			}
-			catch (UnauthorizedAccessException)
+			catch (Exception)
 			{
 				return null;
 			}
 		}
-		public string GetFileFolderName(string path) => path.Substring(path.LastIndexOf('\\') + 1);
+		public Task<string[]> DirInPathTask(string path)
+		{
+			Task<string[]> task = new Task<string[]>(() => DirInPath(path));
+			task.Start();
+			return task;
+		}
+		public Task<string[]> FileInPathTask(string path)
+		{
+			Task<string[]> task = new Task<string[]>(() => FileInPath(path));
+			task.Start();
+			return task;
+		}
+		public string GetFileFolderName(string path)
+		{
+			if (path != null)
+				return path.Substring(path.LastIndexOf('\\') + 1);
+			else
+				return string.Empty;
+		}
+		public bool ContentExistsInPath(string path)
+		{
+			return Directory.Exists(path) || File.Exists(path);
+		}
 	}
 }

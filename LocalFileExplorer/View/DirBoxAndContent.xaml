@@ -4,23 +4,179 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="clr-namespace:LocalFileExplorer.View"
+			 xmlns:root="clr-namespace:LocalFileExplorer"
+			 d:DataContext="{d:DesignInstance Type=root:MainViewModel}"
 			 mc:Ignorable="d"
 			 d:DesignHeight="600"
-			 d:DesignWidth="600"
-			 xmlns:theme="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero2">
-	<StackPanel>
-		<ComboBox Foreground="Black"
-				  IsEditable="True"
-				  FontSize="16">
-			<ComboBox.ItemContainerStyle>
-				<Style TargetType="ComboBoxItem">
-					<Setter Property="Background"
-							Value="#FF1E1E1E" />
-					<Setter Property="Foreground"
-							Value="LightGray" />
-				</Style>
-			</ComboBox.ItemContainerStyle>
-			<ComboBoxItem Content="FUCK YOU"/>
-		</ComboBox>
-	</StackPanel>
+			 d:DesignWidth="600">
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="26" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+		<Grid Grid.Row="0"
+			  Margin="4,4,4,0">
+			<Grid>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="12*" />
+					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="2*" />
+					<ColumnDefinition Width="3*" />
+					<ColumnDefinition Width="*" />
+				</Grid.ColumnDefinitions>
+				<TextBox x:Name="DirBox"
+						 Text="{Binding TVVM.TESTBOX}"
+						 Grid.Column="0"
+						 FontSize="16"
+						 Style="{StaticResource UniTextBoxStyle}"
+						 Margin="1,1,0,0"
+						 Padding="5,-2.5,0,0"
+						 TextChanged="DirBox_TextChanged"/>
+				<Button Grid.Column="1"
+						x:Name="AddButton"
+						Template="{DynamicResource ButtonTemplate1}"
+						Background="{x:Null}"
+						Margin="6,3,6,2"
+						Content="->"
+						Padding="0,-3,0,0"
+						FontWeight="Black"
+						Foreground="White"
+						Click="AddButton_Click">
+					<Button.Style>
+						<Style TargetType="Button">
+							<Style.Triggers>
+								<Trigger Property="IsMouseOver"
+										 Value="True">
+									<Trigger.EnterActions>
+										<BeginStoryboard>
+											<Storyboard>
+												<ColorAnimation Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)"
+																To="Lime"
+																Duration="0:0:0.2" />
+											</Storyboard>
+										</BeginStoryboard>
+									</Trigger.EnterActions>
+									<Trigger.ExitActions>
+										<BeginStoryboard>
+											<Storyboard>
+												<ColorAnimation Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)"
+																To="White"
+																Duration="0:0:0.8" />
+											</Storyboard>
+										</BeginStoryboard>
+									</Trigger.ExitActions>
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+				</Button>
+				<ComboBox x:Name="FavCB"
+						  Grid.Column="2"
+						  Template="{DynamicResource ComboBoxTemplate1}"
+						  Foreground="White"
+						  Margin="0,1,1,0"
+						  Padding="3,2,0,3"
+						  ItemsSource="{Binding FavoritesVM.ComboBoxItems}"
+						  SelectionChanged="ComboBox_SelectionChanged"
+						  SelectedItem="{Binding FavoritesVM.CBBoxSelected, Mode=OneWayToSource}">
+					<ComboBox.ItemContainerStyle>
+						<Style TargetType="ComboBoxItem">
+							<Setter Property="Background"
+									Value="#1E1E1E" />
+							<Setter Property="Foreground"
+									Value="White" />
+							<Setter Property="Effect">
+								<Setter.Value>
+									<DropShadowEffect ShadowDepth="0"
+													  BlurRadius="4"
+													  Direction="0" />
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</ComboBox.ItemContainerStyle>
+				</ComboBox>
+				<Slider x:Name="ScaleSlider" Grid.Column="3"
+						Margin="2,3,2,0"
+						Minimum="40"
+						Maximum="500"
+						LargeChange="50"
+						SmallChange="20"
+						Value="{Binding ContentVM.SliderValue}"
+						MouseDoubleClick="ScaleSlider_MouseDoubleClick"/>
+				<Button Grid.Column="4"
+						x:Name="RefreshButton"
+						Template="{DynamicResource ButtonTemplate1}"
+						Background="{x:Null}"
+						Margin="0,1,1,0"
+						Content="Refresh&#x0A;  View"
+						FontSize="8"
+						Padding="0,-2,0,0"
+						Foreground="White"
+						Click="RefreshButton_Click">
+					<Button.Style>
+						<Style TargetType="Button">
+							<Style.Triggers>
+								<Trigger Property="IsMouseOver"
+										 Value="True">
+									<Trigger.EnterActions>
+										<BeginStoryboard>
+											<Storyboard>
+												<ColorAnimation Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)"
+																To="Lime"
+																Duration="0:0:0.2" />
+											</Storyboard>
+										</BeginStoryboard>
+									</Trigger.EnterActions>
+									<Trigger.ExitActions>
+										<BeginStoryboard>
+											<Storyboard>
+												<ColorAnimation Storyboard.TargetProperty="Foreground.(SolidColorBrush.Color)"
+																To="White"
+																Duration="0:0:0.8" />
+											</Storyboard>
+										</BeginStoryboard>
+									</Trigger.ExitActions>
+								</Trigger>
+							</Style.Triggers>
+						</Style>
+					</Button.Style>
+				</Button>
+			</Grid>
+		</Grid>
+		<Border x:Name="ContentBorder"
+				Grid.Row="1"
+				Margin="5"
+				BorderBrush="Gray"
+				BorderThickness="1">
+			<ListBox x:Name="Content"
+					 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+					 Background="{x:Null}"
+					 Foreground="White"
+					 ItemsSource="{Binding ContentVM.Content}"
+					 SelectionChanged="Content_SelectionChanged">
+				<ListBox.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel IsItemsHost="True"/>
+					</ItemsPanelTemplate>
+				</ListBox.ItemsPanel>
+				<ListBox.ItemTemplate>
+					<DataTemplate>
+						<StackPanel>
+							<Image MaxWidth="{Binding ElementName=ScaleSlider, Path=Value}"
+								   SnapsToDevicePixels="True"
+								   Source="{Binding ToolTip}" />
+
+							<Label Content="{Binding Header}"
+								   Foreground="White"
+								   MaxWidth="{Binding ElementName=ScaleSlider, Path=Value}"
+								   HorizontalAlignment="Center"
+								   VerticalAlignment="Center"
+								   Margin="0,-4,0,0" />
+						</StackPanel>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+			</ListBox>
+		</Border>
+		<Image />
+	</Grid>
 </UserControl>

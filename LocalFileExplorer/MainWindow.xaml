@@ -9,22 +9,15 @@
 		Title="File Explorer"
 		Height="600"
 		Width="800"
-		Background="#FF1E1E1E">
+		Background="#1E1E1E">
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="4*" />
 		</Grid.ColumnDefinitions>
-		<Grid Grid.Column="0">
-			<Grid.RowDefinitions>
-				<RowDefinition Height="15*"/>
-				<RowDefinition Height="*"/>
-			</Grid.RowDefinitions>
-			<View:TheTreeViewStuff Grid.Row="0"
-								   Background="#FF1A1A1A" />
-			<View:ResetRefreashTV Grid.Row="1" />
-		</Grid>
-		<View:DirBoxAndContent Grid.Column="1"/>
+		<View:TheTreeViewStuff Grid.Row="0"
+								   Background="#1A1A1A" />
+			<View:DirBoxAndContent Grid.Column="1"/>
 		<GridSplitter Grid.Column="0"
 					  HorizontalAlignment="Right"
 					  Background="AliceBlue"

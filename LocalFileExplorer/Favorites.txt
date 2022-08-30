@@ -1,50 +1,10 @@
-Name|WTF Root
-Path|E:\Anime Stuff\WTF
-Name|Others
-Path|E:\Anime Stuff\WTF\散本
-Name|C.R 1
-Path|E:\Anime Stuff\WTF\C.R's NEST (しーあーる)\单行本
-Name|C.R 2
-Path|E:\Anime Stuff\WTF\C.R's NEST (しーあーる)\同人
-Name|C.R 3
-Path|E:\Anime Stuff\WTF\C.R's NEST (しーあーる)\杂志散篇
-Name|Co_Ma
-Path|E:\Anime Stuff\WTF\Mist Night (Co_Ma)
-Name|AERIAL RAVE
-Path|E:\Anime Stuff\WTF\[AERIAL RAVE (Jacky)]
-Name|Moo
-Path|E:\Anime Stuff\WTF\[Fanbox] Moo
-Name|悪堕ち島風
-Path|E:\Anime Stuff\WTF\[エロマズン (まー九郎)] 悪堕ち島風～エロ触手に堕とされる艦娘～
-Name|激マブ助
-Path|E:\Anime Stuff\WTF\[マブ会 (激マブ助)]
-Name|e☆ALI-aL!
-Path|E:\Anime Stuff\WTF\[更新至20171008] [e☆ALI-aL! (ありえす渡辺)]
-Name|無望菜志
-Path|E:\Anime Stuff\WTF\[無望菜志]\同人志
-Name|夢見里
-Path|E:\Anime Stuff\WTF\[画师合集]：夢見里 (ばくP)
-Name|石村屋 1
-Path|E:\Anime Stuff\WTF\[画师合集]：石村屋 (いしむら)\散本
-Name|石村屋 2
-Path|E:\Anime Stuff\WTF\[画师合集]：石村屋 (いしむら)\杂志
-Name|長井わたる
-Path|E:\Anime Stuff\WTF\[魔窟亭 (長井わたる)]
-Name|制服触手
-Path|E:\Anime Stuff\WTF\[黒澤pict (黒澤清崇)] 制服触手
-Name|ALLENES
-Path|E:\Anime Stuff\WTF\ALLENES FANBOX
-Name|アイアンカー
-Path|E:\Anime Stuff\WTF\アイアンカー FANBOX
-Name|あなたの街の触手屋さん
-Path|E:\Anime Stuff\WTF\あなたの街の触手屋さん
-Name|すずのもく
-Path|E:\Anime Stuff\WTF\すずぽに (すずのもく)
-Name|夜の勉強会
-Path|E:\Anime Stuff\WTF\ふみひろ (Fumihiro)
-Name|空色れん
-Path|E:\Anime Stuff\WTF\もふもふ苑 (空色れん)
-Name|冬蟲夏草
-Path|E:\Anime Stuff\WTF\冬蟲夏草
+Name|ur c drive
+Path|C:\
+Name|ur d drive
+Path|D:\
+Honesty You Can Put Anything Here|fuck this shit im out
+Because it's seperated by the last '|'|C:\Users\Default
+Name|But I think just say Name and Path
+Path|Because it looks cleaner
 Name|
 Path|

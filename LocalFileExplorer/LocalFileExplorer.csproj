@@ -7,11 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="folder.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Update="Favorites.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="folder.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="ReadMEEE.txt">

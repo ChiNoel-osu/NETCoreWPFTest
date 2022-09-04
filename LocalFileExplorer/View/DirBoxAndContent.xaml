@@ -5,10 +5,14 @@
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="clr-namespace:LocalFileExplorer.View"
 			 xmlns:root="clr-namespace:LocalFileExplorer"
+			 xmlns:converter="clr-namespace:LocalFileExplorer.Converter"
 			 d:DataContext="{d:DesignInstance Type=root:MainViewModel}"
 			 mc:Ignorable="d"
 			 d:DesignHeight="600"
 			 d:DesignWidth="600">
+	<UserControl.Resources>
+		<converter:LabelSizeConverter x:Key="LSConverter" />
+	</UserControl.Resources>
 	<Grid>
 		<Grid.RowDefinitions>
 			<RowDefinition Height="26" />
@@ -165,10 +169,10 @@
 							<Image MaxWidth="{Binding ElementName=ScaleSlider, Path=Value}"
 								   SnapsToDevicePixels="True"
 								   Source="{Binding ToolTip}" />
-
 							<Label Content="{Binding Header}"
 								   Foreground="White"
 								   MaxWidth="{Binding ElementName=ScaleSlider, Path=Value}"
+								   FontSize="{Binding ElementName=ScaleSlider, Path=Value, Converter={StaticResource LSConverter}}"
 								   HorizontalAlignment="Center"
 								   VerticalAlignment="Center"
 								   Margin="0,-4,0,0" />

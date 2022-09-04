@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Test.ViewModel
 {
-	public class ViewModelBase : INotifyPropertyChanged
+	public class VMBase : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
-		protected virtual void OnPropertyChange(string propertyName)
+		protected void OnPropertyChanged(string propertyName)
 		{
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}

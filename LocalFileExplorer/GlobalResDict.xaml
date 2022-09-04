@@ -215,12 +215,18 @@
 							<ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
 											To="#414141"
 											Duration="0:0:0.2" />
-							<ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
-											To="Transparent"
-											Duration="0:0:0.2" BeginTime="0:0:0.4"/>
 						</Storyboard>
 					</BeginStoryboard>
 				</Trigger.EnterActions>
+				<Trigger.ExitActions>
+					<BeginStoryboard>
+						<Storyboard>
+							<ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
+											To="Transparent"
+											Duration="0:0:0.2" />
+						</Storyboard>
+					</BeginStoryboard>
+				</Trigger.ExitActions>
 			</Trigger>
 			<Trigger Property="IsExpanded"
 					 Value="false">
@@ -248,7 +254,7 @@
 				</MultiTrigger.Conditions>
 				<Setter Property="Background"
 						TargetName="Bd"
-						Value="#FF6F6F6F" />
+						Value="#6F6F6F" />
 				<Setter Property="Foreground"
 						Value="{DynamicResource {x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}}" />
 			</MultiTrigger>

@@ -52,8 +52,8 @@ namespace LocalFileExplorer.ViewModel
 					{
 						foreach (string dir in dirs)
 						{
-							var dirAtt = new DirectoryInfo(dir).Attributes;
-							if (!(dirAtt.HasFlag(FileAttributes.System) || dirAtt.HasFlag(FileAttributes.Hidden)))
+							FileAttributes dirAtt = new DirectoryInfo(dir).Attributes;
+							if (!(dirAtt.HasFlag(FileAttributes.System) || dirAtt.HasFlag(FileAttributes.Hidden)))	//Actually hidden folders can be read now, it's handled.
 							{
 								string[] allowedExt = { ".jpg", ".png", ".jpeg", ".gif" };
 								string firstFilePath;
@@ -62,7 +62,7 @@ namespace LocalFileExplorer.ViewModel
 									//Get first image file
 									firstFilePath = Directory.EnumerateFiles(dir, "*.*").Where(s => allowedExt.Any(s.ToLower().EndsWith)).First();
 								}
-								catch (System.InvalidOperationException)
+								catch (InvalidOperationException)
 								{
 									//No such image file, set default
 									firstFilePath = Directory.GetCurrentDirectory() + "\\folder.png";
@@ -75,7 +75,7 @@ namespace LocalFileExplorer.ViewModel
 								{
 									bitmapImage.EndInit();
 								}
-								catch (System.NotSupportedException)	//Bad file, ignoring.
+								catch (NotSupportedException)	//Bad file, ignoring.
 								{
 									bitmapImage = new BitmapImage();
 									bitmapImage.BeginInit();
@@ -85,7 +85,7 @@ namespace LocalFileExplorer.ViewModel
 									bitmapImage.EndInit();
 								}
 								TreeViewItem newItem = new TreeViewItem();
-								newItem.ToolTip = bitmapImage;
+								newItem.ToolTip = bitmapImage;	//Use ToolTip as temp variable
 								newItem.Header = dirShit.GetFileFolderName(dir);
 								_content.Add(newItem);
 							}

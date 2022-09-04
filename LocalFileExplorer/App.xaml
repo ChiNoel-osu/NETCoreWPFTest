@@ -1,8 +1,8 @@
 ﻿<Application x:Class="LocalFileExplorer.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LocalFileExplorer"
-             StartupUri="MainWindow.xaml">
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:LocalFileExplorer"
+			 StartupUri="MainWindow.xaml">
 	<Application.Resources>
 		<ResourceDictionary Source="GlobalResDict.xaml" />
 	</Application.Resources>

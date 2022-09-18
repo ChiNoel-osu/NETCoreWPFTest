@@ -21,7 +21,6 @@ namespace LocalFileExplorer.ViewModel
 			set
 			{ _cbBoxSelected = value; }
 		}
-		public string DirBoxText { get; set; }
 		private ObservableCollection<ComboBoxItem> _comboBoxItems = new ObservableCollection<ComboBoxItem>();
 		public ObservableCollection<ComboBoxItem> ComboBoxItems
 		{

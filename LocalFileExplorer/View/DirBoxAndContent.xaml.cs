@@ -40,7 +40,7 @@ namespace LocalFileExplorer.View
 
 		private void Content_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			if (e.AddedItems.Count < 1)	//Nothing in selected folder
+			if (e.AddedItems.Count < 1) //Nothing in selected folder
 				return;
 			string head = ((TreeViewItem)e.AddedItems[0]).Header.ToString();
 			string path;
@@ -65,10 +65,15 @@ namespace LocalFileExplorer.View
 		}
 		private void AddNewFav_Closed(object sender, EventArgs e)
 		{
-			FavCB.Items.Refresh();
-			var thing = _main.FavoritesVM.ComboBoxItems;
-			thing = null;
-			GC.Collect();	//Does it delete the thing? idk.
+			//Update ItemsSource
+			int beforeUpdateCnt = FavCB.Items.Count;
+			int beforeUpdateIndex = FavCB.SelectedIndex;
+			var thing = _main.FavoritesVM.ComboBoxItems;	thing = null;
+			if (beforeUpdateCnt == FavCB.Items.Count)
+				FavCB.SelectedIndex = beforeUpdateIndex;
+			else
+				FavCB.SelectedIndex = FavCB.Items.Count - 1;
+			GC.Collect();   //Does it delete the thing? idk.
 			AddButton.IsEnabled = true;
 		}
 	}

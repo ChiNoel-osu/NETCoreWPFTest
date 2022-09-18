@@ -16,6 +16,12 @@ namespace LocalFileExplorer.ViewModel
 		{
 			get
 			{
+				if (_cbBoxSelected == null)	//When user added new favorite, _cbBoxSelected will be null
+				{	//because it causes the combobox to update and end up with nothing selected.
+					_cbBoxSelected = new ComboBoxItem();
+					_cbBoxSelected.ToolTip = "";
+					return _cbBoxSelected;
+				}
 				_cbBoxSelected.ToolTip = FavItem[_cbBoxSelected.Content.ToString()];
 				return _cbBoxSelected;
 			}

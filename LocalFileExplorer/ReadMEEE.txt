@@ -9,9 +9,10 @@ You can set up ur favorites folder in Favorites.txt and access ur favorite folde
 
 how2use Favorites.txt
 
-just look at it, it shows some pattern, dont add any empty lines.
+just look at it, it shows some pattern, dont add any empty lines in the middle.
 my program reads it two lines each time.
 if the bundled Favorites.txt disappeared for some reason, it will recreate a blank file, just fill it urself, remember, it splits with '|'.
+At the end, add ONE new line. (CRLF)
 example:
 Name|Fav1
 Path|D:\Picture

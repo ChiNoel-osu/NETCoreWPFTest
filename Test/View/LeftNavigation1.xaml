@@ -4,9 +4,15 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 			 xmlns:local="clr-namespace:Test.View"
+			 xmlns:viewmodel="clr-namespace:Test.ViewModel"
+			 d:DataContext="{d:DesignInstance Type=viewmodel:MainViewModel}"
 			 mc:Ignorable="d" 
 			 d:DesignHeight="400" d:DesignWidth="300">
 	<Grid Background="Ivory">
-		
+		<Button Content="{Binding TestVM.UPString}"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				Padding="8"
+				Command="{Binding CtSource.AddNewCmd}"/>
 	</Grid>
 </UserControl>

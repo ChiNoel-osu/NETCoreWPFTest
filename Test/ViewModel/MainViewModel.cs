@@ -7,11 +7,11 @@ namespace Test.ViewModel
 	public class MainViewModel : VMBase
 	{
 		public TestVM TestVM { get; set; }
-		public VMBase CurrentVM { get; }
+		public TestListBoxVM CtSource { get; set; }
 		public MainViewModel()
 		{
 			TestVM = new TestVM();
-			CurrentVM = TestVM;
+			CtSource = new TestListBoxVM();
 		}
 	}
 }

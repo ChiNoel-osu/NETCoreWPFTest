@@ -23,7 +23,7 @@
 			<Grid>
 				<Grid.ColumnDefinitions>
 					<ColumnDefinition Width="12*" />
-					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="30" />
 					<ColumnDefinition Width="2*" />
 					<ColumnDefinition Width="3*" />
 					<ColumnDefinition Width="*" />
@@ -35,17 +35,18 @@
 						 Style="{StaticResource UniTextBoxStyle}"
 						 Margin="1,1,0,0"
 						 Padding="5,-2.5,0,0"
-						 TextChanged="DirBox_TextChanged"/>
+						 TextChanged="DirBox_TextChanged" />
 				<Button Grid.Column="1"
 						x:Name="AddButton"
 						Template="{DynamicResource ButtonTemplate1}"
 						Background="{x:Null}"
 						Margin="6,3,6,2"
-						Content="->"
-						Padding="0,-3,0,0"
-						FontWeight="Black"
+						Content="*"
 						Foreground="White"
-						Click="AddButton_Click">
+						Click="AddButton_Click"
+						Cursor="Pen"
+						FontWeight="Black"
+						Padding="1,1,1,1">
 					<Button.Style>
 						<Style TargetType="Button">
 							<Style.Triggers>
@@ -99,14 +100,15 @@
 						</Style>
 					</ComboBox.ItemContainerStyle>
 				</ComboBox>
-				<Slider x:Name="ScaleSlider" Grid.Column="3"
+				<Slider x:Name="ScaleSlider"
+						Grid.Column="3"
 						Margin="2,3,2,0"
 						Minimum="40"
 						Maximum="500"
 						LargeChange="50"
 						SmallChange="20"
 						Value="{Binding ContentVM.SliderValue}"
-						MouseDoubleClick="ScaleSlider_MouseDoubleClick"/>
+						MouseDoubleClick="ScaleSlider_MouseDoubleClick" />
 				<Button Grid.Column="4"
 						x:Name="RefreshButton"
 						Template="{DynamicResource ButtonTemplate1}"
@@ -160,7 +162,7 @@
 					 SelectionChanged="Content_SelectionChanged">
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
-						<WrapPanel IsItemsHost="True"/>
+						<WrapPanel IsItemsHost="True" />
 					</ItemsPanelTemplate>
 				</ListBox.ItemsPanel>
 				<ListBox.ItemTemplate>

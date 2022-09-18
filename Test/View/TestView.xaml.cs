@@ -19,7 +19,7 @@ namespace Test.View
 	/// </summary>
 	public partial class TestView : UserControl
 	{
-		MainViewModel _main = new MainViewModel();
+		public static MainViewModel _main = new MainViewModel();
 		LeftNavigation1 LN1 = new LeftNavigation1();
 		LeftNavigation2 LN2 = new LeftNavigation2();
 		public TestView()

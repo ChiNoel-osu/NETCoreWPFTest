@@ -223,7 +223,7 @@
 						<Storyboard>
 							<ColorAnimation Storyboard.TargetProperty="Background.(SolidColorBrush.Color)"
 											To="Transparent"
-											Duration="0:0:0.2" />
+											Duration="0:0:0.1" />
 						</Storyboard>
 					</BeginStoryboard>
 				</Trigger.ExitActions>

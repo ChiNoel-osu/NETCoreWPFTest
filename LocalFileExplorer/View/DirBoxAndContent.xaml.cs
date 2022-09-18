@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LocalFileExplorer.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,9 +8,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 
 namespace LocalFileExplorer.View
 {
@@ -32,7 +30,7 @@ namespace LocalFileExplorer.View
 
 		private void ScaleSlider_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
-			MessageBox.Show("TODOLIST:\nLabel size change with slider.\nWeird binding errors despite nothing happens.\nAdd to favorites button.\nAsync loading????");
+			MessageBox.Show("TODOLIST:\nWeird binding errors despite nothing happens.\nAsync loading????");
 		}
 
 		private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -60,7 +58,18 @@ namespace LocalFileExplorer.View
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
-			MessageBox.Show("This button isn't working yet!","HOLD UP");
+			AddNewFav addNewFav = new AddNewFav(DirBox.Text);
+			addNewFav.Show();
+			addNewFav.Closed += AddNewFav_Closed;
+			AddButton.IsEnabled = false;
+		}
+		private void AddNewFav_Closed(object sender, EventArgs e)
+		{
+			FavCB.Items.Refresh();
+			var thing = _main.FavoritesVM.ComboBoxItems;
+			thing = null;
+			GC.Collect();	//Does it delete the thing? idk.
+			AddButton.IsEnabled = true;
 		}
 	}
 }

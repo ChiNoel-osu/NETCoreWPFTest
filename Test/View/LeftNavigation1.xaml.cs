@@ -21,6 +21,7 @@ namespace Test.View
 		public LeftNavigation1()
 		{
 			InitializeComponent();
+			DataContext = TestView._main;
 		}
 	}
 }

@@ -57,6 +57,14 @@
 			</StackPanel>
 		</StackPanel>
 		<ContentControl x:Name="CCNavi" Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"/>
+		<ListBox Grid.Row="1"
+				 Grid.Column="0"
+				 Background="Transparent"
+				 Foreground="White"
+				 Margin="8"
+				 ItemsSource="{Binding CtSource.FuckCollect}">
+			
+		</ListBox>
 
 	</Grid>
 </UserControl>

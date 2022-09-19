@@ -43,12 +43,23 @@ namespace LocalFileExplorer.View
 			if (e.AddedItems.Count < 1) //Nothing in selected folder
 				return;
 			string head = ((TreeViewItem)e.AddedItems[0]).Header.ToString();
-			string path;
-			if (DirBox.Text.EndsWith('\\'))
-				path = DirBox.Text + head;
+			//Get image path
+			if (((TreeViewItem)e.AddedItems[0]).ToolTip.ToString().EndsWith("folder.png"))
+			{   //No image found, advance path.
+				if (DirBox.Text.EndsWith('\\'))
+					DirBox.Text = string.Format("{0}{1}", DirBox.Text, head);
+				else
+					DirBox.Text = string.Format("{0}\\{1}", DirBox.Text, head);
+			}
 			else
-				path = DirBox.Text + '\\' + head;
-			_main.ContentVM.SelectedPath = path;
+			{   //Image found, Start explorer.exe
+				string path;
+				if (DirBox.Text.EndsWith('\\'))
+					path = DirBox.Text + head;
+				else
+					path = DirBox.Text + '\\' + head;
+				_main.ContentVM.SelectedPath = path;
+			}
 		}
 
 		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -68,13 +79,23 @@ namespace LocalFileExplorer.View
 			//Update ItemsSource
 			int beforeUpdateCnt = FavCB.Items.Count;
 			int beforeUpdateIndex = FavCB.SelectedIndex;
-			var thing = _main.FavoritesVM.ComboBoxItems;	thing = null;
+			var thing = _main.FavoritesVM.ComboBoxItems; thing = null;
 			if (beforeUpdateCnt == FavCB.Items.Count)
 				FavCB.SelectedIndex = beforeUpdateIndex;
 			else
 				FavCB.SelectedIndex = FavCB.Items.Count - 1;
 			GC.Collect();   //Does it delete the thing? idk.
 			AddButton.IsEnabled = true;
+		}
+
+		private void UserControl_KeyDown(object sender, KeyEventArgs e)
+		{
+			if (e.Key == Key.Back)	//Go up
+			{
+				DirBox.Text = DirBox.Text.Remove(DirBox.Text.LastIndexOf('\\'));
+				if (DirBox.Text.Length == 2)    //Stuff like C: and D:
+					DirBox.Text = DirBox.Text + '\\';
+			}
 		}
 	}
 }

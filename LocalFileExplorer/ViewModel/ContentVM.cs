@@ -85,7 +85,7 @@ namespace LocalFileExplorer.ViewModel
 									bitmapImage.EndInit();
 								}
 								TreeViewItem newItem = new TreeViewItem();
-								newItem.ToolTip = bitmapImage;	//Use ToolTip as temp variable
+								newItem.ToolTip = bitmapImage;	//Use ToolTip as the image path
 								newItem.Header = dirShit.GetFileFolderName(dir);
 								_content.Add(newItem);
 							}

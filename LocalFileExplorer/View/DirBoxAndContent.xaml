@@ -9,7 +9,8 @@
 			 d:DataContext="{d:DesignInstance Type=root:MainViewModel}"
 			 mc:Ignorable="d"
 			 d:DesignHeight="600"
-			 d:DesignWidth="600">
+			 d:DesignWidth="600"
+			 KeyDown="UserControl_KeyDown">
 	<UserControl.Resources>
 		<converter:LabelSizeConverter x:Key="LSConverter" />
 	</UserControl.Resources>
@@ -26,7 +27,7 @@
 					<ColumnDefinition Width="30" />
 					<ColumnDefinition Width="2*" />
 					<ColumnDefinition Width="3*" />
-					<ColumnDefinition Width="*" />
+					<ColumnDefinition Width="32" />
 				</Grid.ColumnDefinitions>
 				<TextBox x:Name="DirBox"
 						 Text="{Binding TVVM.TESTBOX}"
@@ -35,7 +36,8 @@
 						 Style="{StaticResource UniTextBoxStyle}"
 						 Margin="1,1,0,0"
 						 Padding="5,-2.5,0,0"
-						 TextChanged="DirBox_TextChanged" />
+						 TextChanged="DirBox_TextChanged"
+						 ToolTip="Use &lt;Backspace&gt; to go back" />
 				<Button Grid.Column="1"
 						x:Name="AddButton"
 						Template="{DynamicResource ButtonTemplate1}"

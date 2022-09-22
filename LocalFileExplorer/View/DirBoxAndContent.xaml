@@ -4,6 +4,7 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:local="clr-namespace:LocalFileExplorer.View"
+			 xmlns:model="clr-namespace:LocalFileExplorer.Model"
 			 xmlns:root="clr-namespace:LocalFileExplorer"
 			 xmlns:converter="clr-namespace:LocalFileExplorer.Converter"
 			 d:DataContext="{d:DesignInstance Type=root:MainViewModel}"
@@ -160,8 +161,7 @@
 					 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 					 Background="{x:Null}"
 					 Foreground="White"
-					 ItemsSource="{Binding ContentVM.Content}"
-					 SelectionChanged="Content_SelectionChanged">
+					 ItemsSource="{Binding ContentVM.Content}">
 				<ListBox.ItemsPanel>
 					<ItemsPanelTemplate>
 						<WrapPanel IsItemsHost="True" />
@@ -170,16 +170,22 @@
 				<ListBox.ItemTemplate>
 					<DataTemplate>
 						<StackPanel>
-							<Image MaxWidth="{Binding ElementName=ScaleSlider, Path=Value}"
+							<Image x:Name="Thumb"
+								   MaxWidth="{Binding ElementName=ScaleSlider, Path=Value}"
 								   SnapsToDevicePixels="True"
-								   Source="{Binding ToolTip}" />
+								   Source="{Binding Tag}"
+								   ToolTip="{Binding Header}"
+								   Cursor="Hand"
+								   MouseLeftButtonUp="Image_MouseLeftButtonUp"/>
 							<Label Content="{Binding Header}"
+								   ToolTip="Double-click here to advance."
 								   Foreground="White"
 								   MaxWidth="{Binding ElementName=ScaleSlider, Path=Value}"
 								   FontSize="{Binding ElementName=ScaleSlider, Path=Value, Converter={StaticResource LSConverter}}"
 								   HorizontalAlignment="Center"
 								   VerticalAlignment="Center"
-								   Margin="0,-4,0,0" />
+								   Margin="0,-4,0,0"
+								   MouseDoubleClick="Label_MouseDoubleClick"/>
 						</StackPanel>
 					</DataTemplate>
 				</ListBox.ItemTemplate>

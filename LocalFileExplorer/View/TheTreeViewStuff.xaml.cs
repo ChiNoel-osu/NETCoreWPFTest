@@ -71,13 +71,13 @@ namespace LocalFileExplorer.View
 				}
 			}
 			else
-				MessageBox.Show("u can't do this my friend", "it's null");
+				MessageBox.Show("This is top-secret my friend.", "I can't do this.");
 		}
 
 		private void FolderView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
 		{
 			//The e actually represents the treeviewitem, how useful.
-			MainViewModel.TVVM.TESTBOX = ((TreeViewItem)(e.NewValue)).Tag.ToString();
+			MainViewModel.TVVM.TESTBOX = ((TreeViewItem)(e.NewValue)).Tag.ToString();	//Tag is the path.
 		}
 	}
 }

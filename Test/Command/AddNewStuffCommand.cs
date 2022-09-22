@@ -9,7 +9,7 @@ namespace Test.Command
 	{
 		public override void Execute(object parameter)
 		{
-			MessageBox.Show("FUCKSDLKJFSNF");
+			MessageBox.Show("Add new stuff? TEST.");
 		}
 	}
 }

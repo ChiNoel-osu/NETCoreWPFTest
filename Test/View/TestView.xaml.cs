@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Test.ViewModel;
 
 namespace Test.View
@@ -29,7 +19,8 @@ namespace Test.View
 		}
 		private void N1Click(object sender, RoutedEventArgs e)
 		{
-			CCNavi.Content = LN1;
+			_main.CtSource.TheLBEntry();
+			//CCNavi.Content = LN1;
 		}
 		private void N2Click(object sender, RoutedEventArgs e)
 		{

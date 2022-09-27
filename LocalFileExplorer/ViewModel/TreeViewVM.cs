@@ -13,7 +13,7 @@ namespace LocalFileExplorer
 		{
 			get { return _testbox; }
 			set { _testbox = value;
-			OnPropertyChange(nameof(TESTBOX));}
+			OnPropertyChanged(nameof(TESTBOX));}
 		}
 	}
 }

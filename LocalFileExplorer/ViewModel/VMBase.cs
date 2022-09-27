@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Text;
+﻿using System.ComponentModel;
 
 namespace LocalFileExplorer.ViewModel
 {
 	public class VMBase : INotifyPropertyChanged
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
-		protected virtual void OnPropertyChange(string propertyName)
+		protected virtual void OnPropertyChanged(string propertyName)
 		{
+			//The '?' is used for nullcheck.
 			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}

@@ -65,6 +65,7 @@ namespace LocalFileExplorer.ViewModel
 					{
 						FavItem.Add(tempName, str.Substring(str.LastIndexOf('|') + 1));
 						ComboBoxItem comboBoxItem = new ComboBoxItem() { Content = tempName };
+						comboBoxItem.ToolTip = str.Substring(str.LastIndexOf('|') + 1);
 						_comboBoxItems.Add(comboBoxItem);
 					}
 					isOddLine = !isOddLine;

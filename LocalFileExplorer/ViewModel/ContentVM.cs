@@ -5,6 +5,8 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Printing;
+using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,11 +49,12 @@ namespace LocalFileExplorer.ViewModel
 		{
 			get
 			{ return _content; }
-			set { _content = value; OnPropertyChange(nameof(Content)); }
+			set { _content = value; OnPropertyChanged(nameof(Content)); }
 		}
 		public void ReGetContent()
 		{
 			Content.Clear();
+			//Setup cancellation token for cancelling use.
 			cts = new CancellationTokenSource();
 			CancellationToken ct = cts.Token;
 			//Long ass task, offload to another thread.
@@ -65,6 +68,7 @@ namespace LocalFileExplorer.ViewModel
 					if (dirs != null)
 					{
 						TreeViewItem lastAdded = null;  //Mark the last added item.
+						List<string> unauthorizedFolders = new List<string>();
 						foreach (string dir in dirs)
 						{
 							try
@@ -92,8 +96,8 @@ namespace LocalFileExplorer.ViewModel
 								}
 								catch (UnauthorizedAccessException)
 								{   //Some top secret folder encounted
-									MessageBox.Show("This is top-secret my friend.", "I can't do this.");
-									return;
+									unauthorizedFolders.Add(dir);
+									continue;	//Skip folder and continue with the next dir.
 								}
 								BitmapImage bitmapImage = new BitmapImage();
 								bitmapImage.BeginInit();
@@ -126,9 +130,18 @@ namespace LocalFileExplorer.ViewModel
 									newItem.Tag = bitmapImage;
 									newItem.Header = dirShit.GetFileFolderName(dir);
 									lastAdded = newItem;
+									//Now this takes fucking forever and must be done on the UI thread.
 									Content.Add(lastAdded);
 								});
 							}
+						}
+						//Done adding stuff, notify user about unauthorized folder if any.
+						if(unauthorizedFolders.Count>0)
+						{
+							StringBuilder stringBuilder = new StringBuilder();
+							foreach(string dir in unauthorizedFolders)
+								stringBuilder.AppendLine(dir);
+							MessageBox.Show("One or more folder(s) has been skipped due to lack of permission:\n" + stringBuilder + "\nIf you want to access these folder(s), try running the app as Administrator.", "Unauthorized access to folder is denied.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
 						}
 					}
 				}
@@ -137,6 +150,7 @@ namespace LocalFileExplorer.ViewModel
 		}
 		public ContentVM()
 		{
+			//Do this so the ObservableCollection can be shared between threads
 			BindingOperations.EnableCollectionSynchronization(Content, new object());
 		}
 	}

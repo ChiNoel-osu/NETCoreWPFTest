@@ -49,7 +49,7 @@ namespace LocalFileExplorer.View
 		#region ListBox item event
 		private void Image_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
-			string imagePath = ((Image)sender).Source.ToString().Substring(8).Replace('/','\\');
+			string imagePath = ((Image)sender).Source.ToString().Substring(8).Replace('/', '\\');
 			string imageFolder = ((Image)sender).ToolTip.ToString();
 			if (imagePath.EndsWith("folder.png"))
 			{   //No image found (default folder.png), advance path.
@@ -77,9 +77,10 @@ namespace LocalFileExplorer.View
 				DirBox.Text = string.Format("{0}\\{1}", DirBox.Text, imageFolder);
 		}
 		#endregion
+
 		private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{
-			DirBox.Text = _main.FavoritesVM.CBBoxSelected.Tag.ToString();
+			DirBox.Text = _main.FavoritesVM.CBBoxSelected.ToolTip.ToString();
 		}
 
 		private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -106,12 +107,21 @@ namespace LocalFileExplorer.View
 		private void UserControl_KeyDown(object sender, KeyEventArgs e)
 		{
 			if (e.Key == Key.Back)  //Go up
-			{
+				GoUP();
+		}
+		private void GoUpBtnClicked(object sender, RoutedEventArgs e)
+		{
+			GoUP();
+		}
+
+		private void GoUP()
+		{
+			if (DirBox.Text != string.Empty)
 				if (DirBox.Text.Remove(DirBox.Text.LastIndexOf('\\')).Length == 2)
 					DirBox.Text = string.Format("{0}:\\", DirBox.Text[0]);
 				else
 					DirBox.Text = DirBox.Text.Remove(DirBox.Text.LastIndexOf('\\'));
-			}
 		}
+
 	}
 }

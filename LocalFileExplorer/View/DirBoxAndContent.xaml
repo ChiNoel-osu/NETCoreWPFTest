@@ -24,22 +24,35 @@
 			  Margin="4,4,4,0">
 			<Grid>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="12*" />
+					<ColumnDefinition Width="25" />
+					<ColumnDefinition Width="8*" />
 					<ColumnDefinition Width="30" />
 					<ColumnDefinition Width="2*" />
 					<ColumnDefinition Width="3*" />
 					<ColumnDefinition Width="32" />
 				</Grid.ColumnDefinitions>
+				<Button Grid.Column="0"
+						Content="▲"
+						ToolTip="Go Up"
+						Cursor="UpArrow"
+						Template="{DynamicResource ButtonTemplate1}"
+						Background="{x:Null}"
+						Foreground="MediumPurple"
+						Margin="1,1,3,0"
+						Padding="0,-2,0,0"
+						FontSize="10"
+						BorderBrush="CornflowerBlue"
+						Click="GoUpBtnClicked" />
 				<TextBox x:Name="DirBox"
 						 Text="{Binding TVVM.TESTBOX}"
-						 Grid.Column="0"
+						 Grid.Column="1"
 						 FontSize="16"
 						 Style="{StaticResource UniTextBoxStyle}"
-						 Margin="1,1,0,0"
+						 Margin="0,1,0,0"
 						 Padding="5,-2.5,0,0"
 						 TextChanged="DirBox_TextChanged"
 						 ToolTip="Use &lt;Backspace&gt; to go back" />
-				<Button Grid.Column="1"
+				<Button Grid.Column="2"
 						x:Name="AddButton"
 						Template="{DynamicResource ButtonTemplate1}"
 						Background="{x:Null}"
@@ -79,7 +92,7 @@
 					</Button.Style>
 				</Button>
 				<ComboBox x:Name="FavCB"
-						  Grid.Column="2"
+						  Grid.Column="3"
 						  Template="{DynamicResource ComboBoxTemplate1}"
 						  Foreground="White"
 						  Margin="0,1,1,0"
@@ -104,7 +117,7 @@
 					</ComboBox.ItemContainerStyle>
 				</ComboBox>
 				<Slider x:Name="ScaleSlider"
-						Grid.Column="3"
+						Grid.Column="4"
 						Margin="2,3,2,0"
 						Minimum="40"
 						Maximum="500"
@@ -112,7 +125,7 @@
 						SmallChange="20"
 						Value="{Binding ContentVM.SliderValue}"
 						MouseDoubleClick="ScaleSlider_MouseDoubleClick" />
-				<Button Grid.Column="4"
+				<Button Grid.Column="5"
 						x:Name="RefreshButton"
 						Template="{DynamicResource ButtonTemplate1}"
 						Background="{x:Null}"

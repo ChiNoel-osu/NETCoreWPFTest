@@ -13,7 +13,7 @@
 	<Grid>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
-			<ColumnDefinition Width="4*" />
+			<ColumnDefinition Width="8*" />
 		</Grid.ColumnDefinitions>
 		<View:TheTreeViewStuff Grid.Row="0"
 								   Background="#1A1A1A" />

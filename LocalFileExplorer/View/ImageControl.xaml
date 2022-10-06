@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="LocalFileExplorer.View.ImageControl"
+			 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+			 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+			 xmlns:viewmodel="clr-namespace:LocalFileExplorer.ViewModel"
+			 d:DataContext="{d:DesignInstance Type=viewmodel:PhotoViewerVM}"
+			 mc:Ignorable="d"
+			 d:DesignHeight="400"
+			 d:DesignWidth="25"
+			 Loaded="UCLoaded">
+	<Grid>
+		<StackPanel HorizontalAlignment="Center"
+					VerticalAlignment="Center">
+			<Button x:Name="MaximizeBtn"
+					Width="20"
+					Template="{DynamicResource ButtonTemplate1}"
+					Background="{x:Null}"
+					Foreground="White"
+					Content="⇱"
+					Click="MaximizeClick"
+					ToolTip="Fullscreen/Restore.&#x0A;Please do not use Win+↑/Win+↓ to change window state, use this button instead." />
+			<Button x:Name="Previous"
+					Width="20"
+					Template="{DynamicResource ButtonTemplate1}"
+					Background="{x:Null}"
+					Foreground="White"
+					Content="▲"
+					Click="PreviousClick"
+					Margin="0,5" />
+			<Slider x:Name="ImgPosition"
+					Style="{DynamicResource SliderStyle1}"
+					Foreground="DodgerBlue"
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					SmallChange="1"
+					Cursor="ScrollNS"
+					Maximum="{Binding ImageCount}"
+					Value="{Binding ListSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					Width="25"
+					Height="250"
+					IsDirectionReversed="True"
+					IsSnapToTickEnabled="True"
+					ValueChanged="ImgPosition_ValueChanged"
+					Orientation="Vertical"
+					TickPlacement="BottomRight"
+					IsMoveToPointEnabled="True" />
+			<Button x:Name="Next"
+					Width="20"
+					Template="{DynamicResource ButtonTemplate1}"
+					Background="{x:Null}"
+					Foreground="White"
+					Content="▼"
+					Click="NextClick"
+					Margin="0,5" />
+			<Button x:Name="ShowInExplorer"
+					Width="20"
+					Template="{DynamicResource ButtonTemplate1}"
+					Background="{x:Null}"
+					Foreground="White"
+					Content="📁"
+					Command="{Binding ShowInExplorerCMD}"
+					CommandParameter="{Binding ElementName=ShowInExplorer, Path=ToolTip}" />
+		</StackPanel>
+
+	</Grid>
+</UserControl>

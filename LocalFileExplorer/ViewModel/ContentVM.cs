@@ -1,23 +1,17 @@
-﻿using System;
-using System.CodeDom;
+﻿using LocalFileExplorer.Model;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Printing;
-using System.Security.Cryptography.Xml;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media.Imaging;
-using System.Windows.Shell;
-using System.Windows.Threading;
-using LocalFileExplorer.Model;
 
 namespace LocalFileExplorer.ViewModel
 {
@@ -25,6 +19,11 @@ namespace LocalFileExplorer.ViewModel
 	{
 		//These both to be public so it can be controlled from DirBoxAndContent.xaml.cs
 		public CancellationTokenSource cts = new CancellationTokenSource();
+		public class CustomContentItem
+		{
+			public BitmapImage thumbNail { get; set; }
+			public string Header { get; set; }
+		}
 		public Task addItemTask;
 		private string _PATHtoShow;
 		public string PATHtoShow
@@ -33,7 +32,7 @@ namespace LocalFileExplorer.ViewModel
 			set
 			{ _PATHtoShow = value; }
 		}
-		public ushort SliderValue { get; set; } = 160;
+		public ushort SliderValue { get; set; } = 156;
 		private string _selectedPath;
 		public string SelectedPath
 		{
@@ -44,8 +43,8 @@ namespace LocalFileExplorer.ViewModel
 				Process.Start("explorer.exe", _selectedPath);
 			}
 		}
-		private ObservableCollection<TreeViewItem> _content = new ObservableCollection<TreeViewItem>();
-		public ObservableCollection<TreeViewItem> Content
+		private ObservableCollection<CustomContentItem> _content = new ObservableCollection<CustomContentItem>();
+		public ObservableCollection<CustomContentItem> Content
 		{
 			get
 			{ return _content; }
@@ -67,7 +66,7 @@ namespace LocalFileExplorer.ViewModel
 					string[] dirs = dirShit.DirInPath(PATHtoShow);
 					if (dirs != null)
 					{
-						TreeViewItem lastAdded = null;  //Mark the last added item.
+						CustomContentItem lastAdded = null;  //Mark the last added item.
 						List<string> unauthorizedFolders = new List<string>();
 						foreach (string dir in dirs)
 						{
@@ -97,12 +96,12 @@ namespace LocalFileExplorer.ViewModel
 								catch (UnauthorizedAccessException)
 								{   //Some top secret folder encounted
 									unauthorizedFolders.Add(dir);
-									continue;	//Skip folder and continue with the next dir.
+									continue;   //Skip folder and continue with the next dir.
 								}
 								BitmapImage bitmapImage = new BitmapImage();
 								bitmapImage.BeginInit();
 								bitmapImage.UriSource = new Uri(firstFilePath);
-								bitmapImage.DecodePixelWidth = SliderValue + 32;
+								bitmapImage.DecodePixelWidth = SliderValue + 128;	//Make it sharper
 								try
 								{
 									bitmapImage.EndInit();
@@ -112,7 +111,7 @@ namespace LocalFileExplorer.ViewModel
 									bitmapImage = new BitmapImage();
 									bitmapImage.BeginInit();
 									bitmapImage.UriSource = new Uri(firstFilePath);
-									bitmapImage.DecodePixelWidth = SliderValue + 128;   //Make it slightly clearer
+									bitmapImage.DecodePixelWidth = SliderValue + 128;
 									bitmapImage.UriSource = new Uri(Directory.GetCurrentDirectory() + "\\folder.png");
 									bitmapImage.EndInit();
 								}
@@ -120,26 +119,31 @@ namespace LocalFileExplorer.ViewModel
 								{
 									//This is VITAL for it to be passed between threads.
 									bitmapImage.Freeze();
+									//Manual lagging the non-UI thread to leave some time for the UI to
+									//response to user input (scrolling/clicking etc.).
+									//Because the UI thread is doing the addimage work, it won't respond
+									//while it's adding. This ensures it. But will cause slower loadtime overall.
+									Thread.Sleep(10);
 								}
 								//Items must be created in UI thread, and Dispatcher.Invoke does it.
 								Application.Current.Dispatcher.Invoke(() =>
 								{
-									//I don't fucking know why but this has to be TreeViewItem and not ListBoxItem or else the thumbnail's not gonna show.
-									//Basically I'm using TreeViewItem as a ListBoxItem. It works anyway.
-									TreeViewItem newItem = new TreeViewItem();
-									newItem.Tag = bitmapImage;
-									newItem.Header = dirShit.GetFileFolderName(dir);
+									CustomContentItem newItem = new CustomContentItem
+									{
+										thumbNail = bitmapImage,
+										Header = dirShit.GetFileFolderName(dir)
+									};
 									lastAdded = newItem;
-									//Now this takes fucking forever and must be done on the UI thread.
+									//Now this takes fucking forever and must be done on the UI thread. It's fucked.
 									Content.Add(lastAdded);
 								});
 							}
 						}
 						//Done adding stuff, notify user about unauthorized folder if any.
-						if(unauthorizedFolders.Count>0)
+						if (unauthorizedFolders.Count > 0)
 						{
 							StringBuilder stringBuilder = new StringBuilder();
-							foreach(string dir in unauthorizedFolders)
+							foreach (string dir in unauthorizedFolders)
 								stringBuilder.AppendLine(dir);
 							MessageBox.Show("One or more folder(s) has been skipped due to lack of permission:\n" + stringBuilder + "\nIf you want to access these folder(s), try running the app as Administrator.", "Unauthorized access to folder is denied.", MessageBoxButton.OK, MessageBoxImage.Asterisk);
 						}

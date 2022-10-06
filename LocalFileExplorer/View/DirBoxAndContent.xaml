@@ -58,6 +58,7 @@
 						Background="{x:Null}"
 						Margin="6,3,6,2"
 						Content="*"
+						ToolTip="Add current folder to Favorites."
 						Foreground="White"
 						Click="AddButton_Click"
 						Cursor="Pen"
@@ -117,6 +118,7 @@
 					</ComboBox.ItemContainerStyle>
 				</ComboBox>
 				<Slider x:Name="ScaleSlider"
+						Style="{DynamicResource SliderStyle1}"
 						Grid.Column="4"
 						Margin="2,3,2,0"
 						Minimum="40"
@@ -124,7 +126,8 @@
 						LargeChange="50"
 						SmallChange="20"
 						Value="{Binding ContentVM.SliderValue}"
-						MouseDoubleClick="ScaleSlider_MouseDoubleClick" />
+						MouseDoubleClick="ScaleSlider_MouseDoubleClick"
+						ToolTip="Resize the ListBox."/>
 				<Button Grid.Column="5"
 						x:Name="RefreshButton"
 						Template="{DynamicResource ButtonTemplate1}"
@@ -186,10 +189,11 @@
 							<Image x:Name="Thumb"
 								   MaxWidth="{Binding ElementName=ScaleSlider, Path=Value}"
 								   SnapsToDevicePixels="True"
-								   Source="{Binding Tag}"
+								   Source="{Binding thumbNail}"
 								   ToolTip="{Binding Header}"
 								   Cursor="Hand"
-								   MouseLeftButtonUp="Image_MouseLeftButtonUp"/>
+								   MouseLeftButtonUp="Image_MouseLeftButtonUp"
+								   MouseRightButtonUp="Thumb_MouseRightButtonUp" />
 							<Label Content="{Binding Header}"
 								   ToolTip="Double-click here to advance."
 								   Foreground="White"
@@ -198,12 +202,11 @@
 								   HorizontalAlignment="Center"
 								   VerticalAlignment="Center"
 								   Margin="0,-4,0,0"
-								   MouseDoubleClick="Label_MouseDoubleClick"/>
+								   MouseDoubleClick="Label_MouseDoubleClick" />
 						</StackPanel>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 			</ListBox>
 		</Border>
-		<Image />
 	</Grid>
 </UserControl>

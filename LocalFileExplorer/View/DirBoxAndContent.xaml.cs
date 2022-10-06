@@ -1,4 +1,5 @@
-﻿using LocalFileExplorer.ViewModel;
+﻿using LocalFileExplorer.Model;
+using LocalFileExplorer.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -19,7 +20,8 @@ namespace LocalFileExplorer.View
 	/// </summary>
 	public partial class DirBoxAndContent : UserControl
 	{
-		MainViewModel _main = new MainViewModel();
+		public static MainViewModel _main = new MainViewModel();
+		public static Stack<Window> wnds = new Stack<Window>();
 		public DirBoxAndContent()
 		{
 			InitializeComponent();
@@ -31,14 +33,17 @@ namespace LocalFileExplorer.View
 			_main.ContentVM.PATHtoShow = DirBox.Text;
 			if (_main.ContentVM.addItemTask != null && !_main.ContentVM.addItemTask.IsCompleted)
 			{
-				_main.ContentVM.cts.Cancel();   //Cancel the task to avoid old folder being added
+				_main.ContentVM.cts.Cancel();   //Cancel the task to avoid old folder being added to the list
 			}
 			_main.ContentVM.ReGetContent();
 		}
 
 		private void ScaleSlider_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-		{
-			MessageBox.Show("TODOLIST:\nPicture Reading\nWeird binding errors despite nothing happens.");
+		{	//TODO: Feature list.
+			MessageBox.Show("TODOLIST:\n" +
+				"Weird binding errors despite nothing happens.\n" +
+				"All the TODOs.\n" +
+				"Customization.");
 		}
 
 		private void RefreshButton_Click(object sender, RoutedEventArgs e)
@@ -59,14 +64,31 @@ namespace LocalFileExplorer.View
 					DirBox.Text = string.Format("{0}\\{1}", DirBox.Text, imageFolder);
 			}
 			else
-			{   //Image found, Start explorer.exe
-				string path;
-				if (DirBox.Text.EndsWith('\\'))
-					path = DirBox.Text + imageFolder;
-				else
-					path = DirBox.Text + '\\' + imageFolder;
-				_main.ContentVM.SelectedPath = path;
+			{	//Image found, start Photo Viewer.
+				string folderToView = ((Image)sender).Source.ToString().Substring(8).Replace('/', '\\');
+				if (folderToView.EndsWith("folder.png")) return;    //No image in folder, return.
+				folderToView = folderToView.Remove(folderToView.LastIndexOf('\\'));
+				PhotoViewer photoViewer = new PhotoViewer(folderToView);
+				photoViewer.Left = 0; photoViewer.Top = 0;  //Spawns window at top left corner.
+				wnds.Push(photoViewer); //Add this to opened windows list to close it when mainwindows closes
+				photoViewer.Show();
+				if (((PhotoViewerVM)photoViewer.DataContext).ImageCount == 0)
+					photoViewer.Close(); //No image after init, close the opened window.
+				//Because the ImageCount is only used after Show() has called (It's bound to the view)
+				//I have to check AFTER it's showed, which will make it confusing to users.
 			}
+		}
+		private void Thumb_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			//Right click to Start explorer.exe
+			string imageFolder = ((Image)sender).ToolTip.ToString();
+			string path;
+			if (DirBox.Text.EndsWith('\\'))
+				path = DirBox.Text + imageFolder;
+			else
+				path = DirBox.Text + '\\' + imageFolder;
+			//The SelectedPath changed and will run the "set property" code.
+			_main.ContentVM.SelectedPath = path;
 		}
 		private void Label_MouseDoubleClick(object sender, MouseButtonEventArgs e)
 		{
@@ -86,6 +108,7 @@ namespace LocalFileExplorer.View
 		private void AddButton_Click(object sender, RoutedEventArgs e)
 		{
 			AddNewFav addNewFav = new AddNewFav(DirBox.Text);
+			wnds.Push(addNewFav);	//Add this to opened windows list to close it when mainwindows closes
 			addNewFav.Show();
 			addNewFav.Closed += AddNewFav_Closed;
 			AddButton.IsEnabled = false;
@@ -122,6 +145,5 @@ namespace LocalFileExplorer.View
 				else
 					DirBox.Text = DirBox.Text.Remove(DirBox.Text.LastIndexOf('\\'));
 		}
-
 	}
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using LocalFileExplorer.ViewModel;
+using LocalFileExplorer.ViewModel.Command;
 
 namespace LocalFileExplorer
 {

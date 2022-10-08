@@ -13,12 +13,22 @@ using System.Windows.Media.Imaging;
 
 namespace LocalFileExplorer.ViewModel
 {
-	public class PhotoViewerVM
+	public class PhotoViewerVM : VMBase
 	{
 		private readonly string path;
-		public ushort ListSelectedIndex { get; set; }   //Shared between PhotoViewer & ImageControl, and they need to be in the same DataContext.
+		private ushort _LSI;
+		public ushort ListSelectedIndex   //Shared between PhotoViewer & ImageControl, and they need to be in the same DataContext.
+		{
+			get
+			{ return _LSI; }
+			set
+			{
+				_LSI = value;
+				OnPropertyChanged(nameof(ListSelectedIndex));
+			}
+		}
 		public ShowInExplorerCMD ShowInExplorerCMD { get; } = new ShowInExplorerCMD();
-		public ushort ImageCount { get; private set; } = 0;	//Bind target for slider maximum.
+		public ushort ImageCount { get; private set; } = 0; //Bind target for slider maximum.
 		public class CustomListItem //Use this as the ListBoxItem binding target
 		{
 			public BitmapImage Image { get; set; }
@@ -63,7 +73,7 @@ namespace LocalFileExplorer.ViewModel
 					}
 					catch (Exception e)
 					{
-						MessageBox.Show("Error when sorting pictures:\n" + e.Message+"\nYou can use right click to open the folder in explorer.", "Oops.");
+						MessageBox.Show("Error when sorting pictures:\n" + e.Message + "\nYou can use right click to open the folder in explorer.", "Oops.");
 						return;
 					}
 				}

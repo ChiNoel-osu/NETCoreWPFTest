@@ -13,7 +13,7 @@
 		Background="Black"
 		WindowStyle="ToolWindow"
 		KeyDown="Window_KeyDown">
-	<Grid>
+	<Grid x:Name="grid">
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition Width="*" />
 			<ColumnDefinition Width="25" />
@@ -27,7 +27,7 @@
 				 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
 				 ScrollViewer.VerticalScrollBarVisibility="Hidden"
 				 ItemsSource="{Binding Images}"
-				 SelectedIndex="{Binding ListSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+				 SelectedIndex="{Binding ListSelectedIndex, Mode=TwoWay}"
 				 SelectionChanged="ImageBox_SelectionChanged">
 			<ListBox.ItemTemplate>
 				<DataTemplate>

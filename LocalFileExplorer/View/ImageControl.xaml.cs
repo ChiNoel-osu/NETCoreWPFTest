@@ -21,7 +21,6 @@ namespace LocalFileExplorer.View
 		{   //Gets the parent window.
 			parentWnd = Window.GetWindow((DependencyObject)sender);
 			ShowInExplorer.ToolTip = parentWnd.Tag;	//The tag is the opened folderPath.
-			ImgPosition.Focus();
 		}
 		private void MaximizeClick(object sender, RoutedEventArgs e)
 		{   //Please do not use Win+UpArrow to maximize;
@@ -45,11 +44,6 @@ namespace LocalFileExplorer.View
 		{
 			if(ImgPosition.Value>0)
 				ImgPosition.Value--;
-		}
-		private void ImgPosition_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-		{
-			//Get the reference of parent window's data context.
-			PhotoViewerVM parentVM = (PhotoViewerVM)parentWnd.DataContext;
 		}
 		private void NextClick(object sender, RoutedEventArgs e)
 		{

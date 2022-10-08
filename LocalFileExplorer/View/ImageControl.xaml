@@ -36,12 +36,11 @@
 					SmallChange="1"
 					Cursor="ScrollNS"
 					Maximum="{Binding ImageCount}"
-					Value="{Binding ListSelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+					Value="{Binding ListSelectedIndex, Mode=TwoWay}"
 					Width="25"
 					Height="250"
 					IsDirectionReversed="True"
 					IsSnapToTickEnabled="True"
-					ValueChanged="ImgPosition_ValueChanged"
 					Orientation="Vertical"
 					TickPlacement="BottomRight"
 					IsMoveToPointEnabled="True" />

@@ -70,6 +70,7 @@ namespace LocalFileExplorer.View
 				folderToView = folderToView.Remove(folderToView.LastIndexOf('\\'));
 				PhotoViewer photoViewer = new PhotoViewer(folderToView);
 				photoViewer.Left = 0; photoViewer.Top = 0;  //Spawns window at top left corner.
+				
 				wnds.Push(photoViewer); //Add this to opened windows list to close it when mainwindows closes
 				photoViewer.Show();
 				if (((PhotoViewerVM)photoViewer.DataContext).ImageCount == 0)

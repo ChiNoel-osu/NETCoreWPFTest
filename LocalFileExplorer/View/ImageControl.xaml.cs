@@ -11,8 +11,6 @@ namespace LocalFileExplorer.View
 	public partial class ImageControl : UserControl
 	{
 		Window parentWnd;
-		WindowStyle previousStyle;
-		WindowState previousState;
 		public ImageControl()
 		{
 			InitializeComponent();
@@ -21,23 +19,6 @@ namespace LocalFileExplorer.View
 		{   //Gets the parent window.
 			parentWnd = Window.GetWindow((DependencyObject)sender);
 			ShowInExplorer.ToolTip = parentWnd.Tag;	//The tag is the opened folderPath.
-		}
-		private void MaximizeClick(object sender, RoutedEventArgs e)
-		{   //Please do not use Win+UpArrow to maximize;
-			if (parentWnd.WindowStyle != WindowStyle.None)
-			{   //Not in Fullscreen mode
-				previousStyle = parentWnd.WindowStyle;
-				previousState = parentWnd.WindowState;
-				parentWnd.WindowStyle = WindowStyle.None;
-				parentWnd.WindowState = WindowState.Maximized;
-				MaximizeBtn.Content = '⇲';
-			}
-			else
-			{
-				parentWnd.WindowStyle = previousStyle;
-				parentWnd.WindowState = previousState;
-				MaximizeBtn.Content = '⇱';
-			}
 		}
 
 		private void PreviousClick(object sender, RoutedEventArgs e)

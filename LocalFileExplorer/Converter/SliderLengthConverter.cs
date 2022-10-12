@@ -5,15 +5,18 @@ using System.Windows.Data;
 
 namespace LocalFileExplorer.Converter
 {
-	public class LabelSizeConverter : IValueConverter
+	public class SliderLengthConverter : IValueConverter
 	{
 		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return Math.Sqrt((double)value);
+			if ((double)value > 2)
+				return (double)value * 10;
+			return 10;
 		}
+
 		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			MessageBox.Show("LabelSizeConverter ConverBack not implemented.");
+			MessageBox.Show("SliderLengthConverter ConverBack not implemented.");
 			throw new NotImplementedException();
 		}
 	}

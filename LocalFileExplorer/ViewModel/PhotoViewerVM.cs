@@ -28,7 +28,21 @@ namespace LocalFileExplorer.ViewModel
 			}
 		}
 		public ShowInExplorerCMD ShowInExplorerCMD { get; } = new ShowInExplorerCMD();
-		public ushort ImageCount { get; private set; } = 0; //Bind target for slider maximum.
+		private ushort _imageCount;
+		public ushort ImageCount
+		{
+			get
+			{
+				if(_imageCount == 1)	//1 pictures
+					return 1;
+				else if(_imageCount == 0)	//Sorting errors
+					return 0;
+				else
+					return (ushort)(_imageCount - 1);	//Index issues so subtract by 1
+			}
+			private set
+			{ _imageCount = value; }
+		}	//Bind target for slider maximum.
 		public class CustomListItem //Use this as the ListBoxItem binding target
 		{
 			public BitmapImage Image { get; set; }
@@ -121,7 +135,7 @@ namespace LocalFileExplorer.ViewModel
 				imgItem.Name = img.Value.Substring(img.Value.LastIndexOf('\\') + 1);
 				imgItem.Image = bitmapImage;
 				images.Add(imgItem);
-				ImageCount++;
+				_imageCount++;
 			}
 		}
 		public PhotoViewerVM(string folderPath)

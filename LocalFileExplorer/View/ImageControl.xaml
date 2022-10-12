@@ -4,22 +4,18 @@
 			 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 			 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 			 xmlns:viewmodel="clr-namespace:LocalFileExplorer.ViewModel"
+			 xmlns:converter="clr-namespace:LocalFileExplorer.Converter"
 			 d:DataContext="{d:DesignInstance Type=viewmodel:PhotoViewerVM}"
 			 mc:Ignorable="d"
-			 d:DesignHeight="400"
+			 d:DesignHeight="500"
 			 d:DesignWidth="25"
 			 Loaded="UCLoaded">
+	<UserControl.Resources>
+		<converter:SliderLengthConverter x:Key="SLConverter" />
+	</UserControl.Resources>
 	<Grid>
 		<StackPanel HorizontalAlignment="Center"
 					VerticalAlignment="Center">
-			<Button x:Name="MaximizeBtn"
-					Width="20"
-					Template="{DynamicResource ButtonTemplate1}"
-					Background="{x:Null}"
-					Foreground="White"
-					Content="⇱"
-					Click="MaximizeClick"
-					ToolTip="Fullscreen/Restore.&#x0A;Please do not use Win+↑/Win+↓ to change window state, use this button instead." />
 			<Button x:Name="Previous"
 					Width="20"
 					Template="{DynamicResource ButtonTemplate1}"
@@ -38,7 +34,8 @@
 					Maximum="{Binding ImageCount}"
 					Value="{Binding ListSelectedIndex, Mode=TwoWay}"
 					Width="25"
-					Height="250"
+					Height="{Binding ElementName=ImgPosition, Path=Maximum, Converter={StaticResource SLConverter}}"
+					MaxHeight="420"
 					IsDirectionReversed="True"
 					IsSnapToTickEnabled="True"
 					Orientation="Vertical"

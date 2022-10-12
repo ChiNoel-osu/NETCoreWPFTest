@@ -19,6 +19,7 @@ namespace LocalFileExplorer.View
 	public partial class PhotoViewer : Window
 	{
 		private PhotoViewerVM PVVM;
+		private int timeStamp = 0;
 		public PhotoViewer(string folderPath)
 		{
 			InitializeComponent();
@@ -85,17 +86,51 @@ namespace LocalFileExplorer.View
 			}
 			else
 			{
+				w = this.ActualWidth;
+				h = this.ActualHeight;
 				Point mousePosOnWnd = e.GetPosition(this);
 				Point reletivePos = new Point(mousePosOnWnd.X / w, mousePosOnWnd.Y / h);
 				reletivePos.X = BigImage.RenderTransformOrigin.X;   //Don't change X coord.
-				double startYfrom = 0.4;	double startYto = 0.6;	//Set startpos reletive to window.
+				double startYfrom = 0.4; double startYto = 0.6; //Set startpos reletive to window.
 				if (reletivePos.Y > startYfrom && reletivePos.Y < startYto)
 					reletivePos.Y = (reletivePos.Y - startYfrom) / (startYto - startYfrom);
-					//X[Rescaled]=(X-X[min]/X[max]-X[min])	this rescales X to a range of [0,1]
+				//X[Rescaled]=(X-X[min]/X[max]-X[min])	this rescales X to a range of [0,1]
 				else
-					reletivePos.Y = BigImage.RenderTransformOrigin.Y;	//Don't change Y coord.
+					reletivePos.Y = BigImage.RenderTransformOrigin.Y;   //Don't change Y coord.
 				BigImage.RenderTransformOrigin = reletivePos;
 			}
+		}
+
+		private void Rectangle_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			DragMove();
+			if (e.Timestamp - timeStamp < 400)  //400ms for the user to double click
+				if (WindowState == WindowState.Normal)
+					WindowState = WindowState.Maximized;
+				else
+					WindowState = WindowState.Normal;
+			timeStamp = e.Timestamp;
+		}
+		private void Rectangle_MouseLeave(object sender, MouseEventArgs e)
+		{
+			if (e.LeftButton == MouseButtonState.Pressed)
+				WindowState = WindowState.Normal;
+		}
+
+		private void CloseClick(object sender, RoutedEventArgs e)
+		{
+			Close();
+		}
+		private void MaxResClick(object sender, RoutedEventArgs e)
+		{
+			if (WindowState == WindowState.Normal)
+				WindowState = WindowState.Maximized;
+			else
+				WindowState = WindowState.Normal;
+		}
+		private void MinClick(object sender, RoutedEventArgs e)
+		{
+			WindowState = WindowState.Minimized;
 		}
 	}
 }

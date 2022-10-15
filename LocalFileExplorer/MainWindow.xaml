@@ -17,7 +17,7 @@
 		</Grid.ColumnDefinitions>
 		<View:TheTreeViewStuff Grid.Row="0"
 								   Background="#1A1A1A" />
-			<View:DirBoxAndContent Grid.Column="1"/>
+		<View:DirBoxAndContent Grid.Column="1"/>
 		<GridSplitter Grid.Column="0"
 					  HorizontalAlignment="Right"
 					  Background="AliceBlue"

@@ -10,6 +10,7 @@
 			 d:DesignHeight="500"
 			 d:DesignWidth="25"
 			 Loaded="UCLoaded">
+	<!--Ignore the converter errors here it's bs-->
 	<UserControl.Resources>
 		<converter:SliderLengthConverter x:Key="SLConverter" />
 	</UserControl.Resources>

@@ -1,18 +1,29 @@
 ﻿using LocalFileExplorer.ViewModel.Command;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
+using System.Text.RegularExpressions;
 using System.Windows.Media.Imaging;
 
 namespace LocalFileExplorer.ViewModel
 {
+	class NaturalStringComparer : IComparer<string>
+	{
+		public int Compare(string left, string right)
+		{
+			int max = new[] { left, right }
+				.SelectMany(x => Regex.Matches(x, @"\d+").Cast<Match>().Select(y => (int?)y.Value.Length))
+				.Max() ?? 0;	//If it's null, return 0;
+
+			var leftPadded = Regex.Replace(left, @"\d+", m => m.Value.PadLeft(max, '0'));
+			var rightPadded = Regex.Replace(right, @"\d+", m => m.Value.PadLeft(max, '0'));
+
+			return string.Compare(leftPadded, rightPadded);
+		}
+	}
 	public class PhotoViewerVM : VMBase
 	{
 		private readonly string path;
@@ -33,16 +44,16 @@ namespace LocalFileExplorer.ViewModel
 		{
 			get
 			{
-				if(_imageCount == 1)	//1 pictures
+				if (_imageCount == 1)   //1 pictures
 					return 1;
-				else if(_imageCount == 0)	//Sorting errors
+				else if (_imageCount == 0)  //Sorting errors
 					return 0;
 				else
-					return (ushort)(_imageCount - 1);	//Index issues so subtract by 1
+					return (ushort)(_imageCount - 1);   //Index issues so subtract by 1
 			}
 			private set
 			{ _imageCount = value; }
-		}	//Bind target for slider maximum.
+		}   //Bind target for slider maximum.
 		public class CustomListItem //Use this as the ListBoxItem binding target
 		{
 			public BitmapImage Image { get; set; }
@@ -68,62 +79,16 @@ namespace LocalFileExplorer.ViewModel
 				imgs = Directory.EnumerateFiles(path, "*.*").Where(s => allowedExt.Any(s.ToLower().EndsWith));
 			}
 			catch (InvalidOperationException) { return; }
-
-			//Extract the numbers in the file name and sort the image based on them.
-			//When used as hentai viewer it's fine, but will cause problem when viewing large amout
-			//of pictures that may have the same number in its file name.
-			//TODO: Sorting mode configurable.
-			Dictionary<int, string> map = new Dictionary<int, string>();
-			short noNumberFix = 0;
+			//Left value for name (sorting target), right value for path (displaying).
+			//Natural sorting.
+			SortedDictionary<string, string> map = new SortedDictionary<string, string>(new NaturalStringComparer());
 			foreach (string filePath in imgs)
-			{
-				string fileNameWOExt = filePath.Substring(filePath.LastIndexOf('\\') + 1);
-				fileNameWOExt = fileNameWOExt.Remove(fileNameWOExt.LastIndexOf('.'));
-				if (Int32.TryParse(fileNameWOExt, out int id))
-				{
-					try
-					{
-						map.Add(id, filePath);
-					}
-					catch (Exception e)
-					{
-						MessageBox.Show("Error when sorting pictures:\n" + e.Message + "\nYou can use right click to open the folder in explorer.", "Oops.");
-						return;
-					}
-				}
-				else
-				{
-					string extractedNumber = string.Empty;
-					for (ushort i = 0; i < fileNameWOExt.Length; i++)
-						if (Char.IsDigit(fileNameWOExt[i]))
-							extractedNumber += fileNameWOExt[i];
-					int num;
-					try
-					{
-						num = ushort.Parse(extractedNumber);
-					}
-					catch (OverflowException)
-					{   //The number is to big, use the last 3 numbers.
-						num = ushort.Parse(extractedNumber.Substring(extractedNumber.Length - 3));
-					}
-					catch (FormatException)
-					{   //There's no number in the file name
-						num = --noNumberFix;
-					}
-					try
-					{
-						map.Add(num, filePath);
-					}
-					catch (Exception e)
-					{
-						MessageBox.Show("Error when sorting pictures:\n" + e.Message + "\nYou can use right click to open the folder in explorer.", "Oops.");
-						return;
-					}
-				}
+			{   //Use of range operator
+				string fileNameWOExt = filePath[(filePath.LastIndexOf('\\') + 1)..];        //001.jpg
+				fileNameWOExt = fileNameWOExt[..fileNameWOExt.LastIndexOf('.')];            //001
+				map.Add(fileNameWOExt, filePath);   //The dictionary will sort itself as valuesa are being added.
 			}
-			IOrderedEnumerable<KeyValuePair<int, string>> sortedMap = map.OrderBy(x => x.Key);
-
-			foreach (KeyValuePair<int, string> img in sortedMap)
+			foreach (KeyValuePair<string, string> img in map)
 			{
 				CustomListItem imgItem = new CustomListItem();
 				BitmapImage bitmapImage = new BitmapImage();
